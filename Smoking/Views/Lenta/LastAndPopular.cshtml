@@ -1,0 +1,31 @@
+﻿@model LastAndPopularViewModel
+<div class="tabs">
+    <ul>
+        <li><a href="" arg="Last" class="active">Последнее</a></li>
+        <li><a href="" arg="Favorite">Популярное</a></li>
+    </ul>
+</div>
+<div class="tab-content">
+    <div id="Last">
+        <ul class="news-list">
+            @foreach (var item in Model.Last)
+            {
+                <li>
+                    <p><a href="@item.Href">@((item.HeaderText ?? item.Text).ClearHTML())</a></p>
+                    <p class="timestamp">@item.CreateDate.ToString("HH:mm")</p>
+                </li>
+            }
+        </ul>
+    </div>
+    <div id="Favorite" style="display: none">
+        <ul class="news-list">
+            @foreach (var item in Model.Favorite)
+            {
+                <li>
+                    <p><a href="@item.Href">@((item.HeaderText ?? item.Text).ClearHTML())</a></p>
+                    <p class="timestamp">@item.CreateDate.ToString("d MMMM yyyy")</p>
+                </li>
+            }
+        </ul>
+    </div>
+</div>

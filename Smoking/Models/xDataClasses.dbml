@@ -1,0 +1,428 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="Smoking" Class="DB" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="WebSettings" ConnectionString="Data Source=ANTON-PC\SQLSERVER2012;Initial Catalog=Smoking;User ID=sa" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="MsSqlConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.CMSPages" Member="CMSPages">
+    <Type Name="CMSPage">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="URL" Type="System.String" DbType="NVarChar(400) NOT NULL" CanBeNull="false" />
+      <Column Name="ParentID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Visible" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="Type" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="OrderNum" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ViewMenu" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Association Name="CMSPage_CMSPage" Member="Children" Storage="_CMSPages" ThisKey="ID" OtherKey="ParentID" Type="CMSPage" />
+      <Association Name="CMSPage_CMSPageLang" Member="CMSPageLangs" ThisKey="ID" OtherKey="CMSPageID" Type="CMSPageLang" />
+      <Association Name="CMSPage_CMSPageRoleRel" Member="CMSPageRoleRels" ThisKey="ID" OtherKey="PageID" Type="CMSPageRoleRel" />
+      <Association Name="CMSPage_Lenta" Member="Lentas" ThisKey="ID" OtherKey="PageID" Type="Lenta" />
+      <Association Name="CMSPage_CMSPageTextData" Member="CMSPageTextDatas" ThisKey="ID" OtherKey="CMSPageID" Type="CMSPageTextData" />
+      <Association Name="CMSPage_CMSPageSlider" Member="CMSPageSliders" ThisKey="ID" OtherKey="CMSPageID" Type="CMSPageSlider" />
+      <Association Name="CMSPage_CMSPage" Member="Parent" Storage="_CMSPage1" ThisKey="ParentID" OtherKey="ID" Type="CMSPage" IsForeignKey="true" />
+      <Association Name="PageType_CMSPage" Member="PageType" ThisKey="Type" OtherKey="ID" Type="PageType" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.CMSPageLangs" Member="CMSPageLangs">
+    <Type Name="CMSPageLang">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="LanguageID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="CMSPageID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="PageName" Type="System.String" DbType="NVarChar(400) NOT NULL" CanBeNull="false" />
+      <Column Name="Title" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="Keywords" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="Description" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="FullName" Type="System.String" DbType="NVarChar(400) NOT NULL" CanBeNull="false" />
+      <Association Name="CMSPage_CMSPageLang" Member="CMSPage" ThisKey="CMSPageID" OtherKey="ID" Type="CMSPage" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+      <Association Name="Language_CMSPageLang" Member="Language" ThisKey="LanguageID" OtherKey="ID" Type="Language" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.SiteSettings" Member="SiteSettings">
+    <Type Name="SiteSetting">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Setting" Type="System.String" DbType="NVarChar(512) NOT NULL" CanBeNull="false" />
+      <Column Name="Value" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="Title" Type="System.String" DbType="NVarChar(512) NOT NULL" CanBeNull="false" />
+      <Column Name="OrderNum" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Editor" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="ObjectType" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="GroupName" Type="System.String" DbType="NVarChar(512) NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.aspnet_Users" Member="Users">
+    <Type Name="User">
+      <Column Name="ApplicationId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="UserId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="UserName" Type="System.String" DbType="NVarChar(256) NOT NULL" CanBeNull="false" />
+      <Column Name="LoweredUserName" Type="System.String" DbType="NVarChar(256) NOT NULL" CanBeNull="false" />
+      <Column Name="MobileAlias" Type="System.String" DbType="NVarChar(16)" CanBeNull="true" />
+      <Column Name="IsAnonymous" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="LastActivityDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Association Name="User_UsersInRole" Member="UsersInRoles" ThisKey="UserId" OtherKey="UserId" Type="UsersInRole" />
+      <Association Name="User_MembershipData" Member="MembershipData" ThisKey="UserId" OtherKey="UserId" Type="MembershipData" Cardinality="One" />
+      <Association Name="User_Comment" Member="Comments" ThisKey="UserId" OtherKey="UserID" Type="Comment" />
+      <Association Name="User_MapObject" Member="MapObjects" ThisKey="UserId" OtherKey="CreatorID" Type="MapObject" />
+      <Association Name="User_MapObjectFavorite" Member="MapObjectFavorites" ThisKey="UserId" OtherKey="UserID" Type="MapObjectFavorite" />
+      <Association Name="User_UserFavoriteLenta" Member="UserFavoriteLentas" ThisKey="UserId" OtherKey="UserID" Type="UserFavoriteLenta" />
+      <Association Name="User_UserProfile" Member="UserProfile" ThisKey="UserId" OtherKey="UserID" Type="UserProfile" Cardinality="One" />
+      <Association Name="User_UserMessage" Member="IncomingMessages" Storage="_UserMessages" ThisKey="UserId" OtherKey="UserID" Type="UserMessage" />
+      <Association Name="User_UserMessage1" Member="OutcomingMessages" Storage="_UserMessages1" ThisKey="UserId" OtherKey="Sender" Type="UserMessage" />
+    </Type>
+  </Table>
+  <Table Name="dbo.aspnet_UsersInRoles" Member="UsersInRoles">
+    <Type Name="UsersInRole">
+      <Column Name="UserId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="RoleId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Association Name="User_UsersInRole" Member="User" ThisKey="UserId" OtherKey="UserId" Type="User" IsForeignKey="true" />
+      <Association Name="Role_UsersInRole" Member="Role" ThisKey="RoleId" OtherKey="RoleId" Type="Role" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.aspnet_Roles" Member="Roles">
+    <Type Name="Role">
+      <Column Name="ApplicationId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="RoleId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="RoleName" Type="System.String" DbType="NVarChar(256) NOT NULL" CanBeNull="false" />
+      <Column Name="LoweredRoleName" Type="System.String" DbType="NVarChar(256) NOT NULL" CanBeNull="false" />
+      <Column Name="Description" Type="System.String" DbType="NVarChar(256)" CanBeNull="true" />
+      <Association Name="Role_UsersInRole" Member="UsersInRoles" ThisKey="RoleId" OtherKey="RoleId" Type="UsersInRole" />
+      <Association Name="Role_CMSPageRoleRel" Member="CMSPageRoleRels" ThisKey="RoleId" OtherKey="RoleID" Type="CMSPageRoleRel" />
+    </Type>
+  </Table>
+  <Table Name="dbo.aspnet_Membership" Member="MembershipDatas">
+    <Type Name="MembershipData">
+      <Column Name="ApplicationId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="UserId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Password" Type="System.String" DbType="NVarChar(128) NOT NULL" CanBeNull="false" />
+      <Column Name="PasswordFormat" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="PasswordSalt" Type="System.String" DbType="NVarChar(128) NOT NULL" CanBeNull="false" />
+      <Column Name="MobilePIN" Type="System.String" DbType="NVarChar(16)" CanBeNull="true" />
+      <Column Name="Email" Type="System.String" DbType="NVarChar(256)" CanBeNull="true" />
+      <Column Name="LoweredEmail" Type="System.String" DbType="NVarChar(256)" CanBeNull="true" />
+      <Column Name="PasswordQuestion" Type="System.String" DbType="NVarChar(256)" CanBeNull="true" />
+      <Column Name="PasswordAnswer" Type="System.String" DbType="NVarChar(128)" CanBeNull="true" />
+      <Column Name="IsApproved" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="IsLockedOut" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="CreateDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="LastLoginDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="LastPasswordChangedDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="LastLockoutDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="FailedPasswordAttemptCount" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="FailedPasswordAttemptWindowStart" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="FailedPasswordAnswerAttemptCount" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="FailedPasswordAnswerAttemptWindowStart" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="Comment" Type="System.String" DbType="NText" CanBeNull="true" UpdateCheck="Never" />
+      <Association Name="User_MembershipData" Member="User" ThisKey="UserId" OtherKey="UserId" Type="User" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.MailingReplacements" Member="MailingReplacements">
+    <Type Name="MailingReplacement">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Replacement" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="Description" Type="System.String" DbType="NVarChar(400) NOT NULL" CanBeNull="false" />
+      <Column Name="MailingID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="MailingList_MailingReplacement" Member="MailingList" ThisKey="MailingID" OtherKey="ID" Type="MailingList" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Languages" Member="Languages">
+    <Type Name="Language">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="ShortName" Type="System.String" DbType="NVarChar(2) NOT NULL" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Icon" Type="System.Data.Linq.Binary" DbType="VarBinary(MAX)" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="Enabled" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="ByDef" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="Ordernum" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="Language_CMSPageLang" Member="CMSPageLangs" ThisKey="ID" OtherKey="LanguageID" Type="CMSPageLang" />
+      <Association Name="Language_LabelDictionaryLang" Member="LabelDictionaryLangs" ThisKey="ID" OtherKey="LanguageID" Type="LabelDictionaryLang" />
+      <Association Name="Language_CMSPageTextData" Member="CMSPageTextDatas" ThisKey="ID" OtherKey="LangID" Type="CMSPageTextData" />
+      <Association Name="Language_CMSPageSlider" Member="CMSPageSliders" ThisKey="ID" OtherKey="LangID" Type="CMSPageSlider" />
+    </Type>
+  </Table>
+  <Table Name="dbo.CMSPageTypes" Member="PageTypes">
+    <Type Name="PageType">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="TypeName" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="Description" Type="System.String" DbType="NVarChar(512) NOT NULL" CanBeNull="false" />
+      <Column Name="Ordernum" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="PageType_CMSPage" Member="CMSPages" ThisKey="ID" OtherKey="Type" Type="CMSPage" />
+      <Association Name="PageType_CMSPageCell" Member="CMSPageCells" ThisKey="ID" OtherKey="TypeID" Type="CMSPageCell" />
+    </Type>
+  </Table>
+  <Table Name="dbo.LabelDictionary" Member="LabelDictionaries">
+    <Type Name="LabelDictionary">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="TextKey" Type="System.String" DbType="NVarChar(400) NOT NULL" CanBeNull="false" />
+      <Association Name="LabelDictionary_LabelDictionaryLang" Member="LabelDictionaryLangs" ThisKey="ID" OtherKey="LabelID" Type="LabelDictionaryLang" />
+    </Type>
+  </Table>
+  <Table Name="dbo.LabelDictionaryLangs" Member="LabelDictionaryLangs">
+    <Type Name="LabelDictionaryLang">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="TranslatedLabel" Type="System.String" DbType="NVarChar(400) NOT NULL" CanBeNull="false" />
+      <Column Name="LabelID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="LanguageID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="LabelDictionary_LabelDictionaryLang" Member="LabelDictionary" ThisKey="LabelID" OtherKey="ID" Type="LabelDictionary" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+      <Association Name="Language_LabelDictionaryLang" Member="Language" ThisKey="LanguageID" OtherKey="ID" Type="Language" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.CMSPageRoleRels" Member="CMSPageRoleRels">
+    <Type Name="CMSPageRoleRel">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="PageID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="RoleID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
+      <Association Name="Role_CMSPageRoleRel" Member="Role" ThisKey="RoleID" OtherKey="RoleId" Type="Role" IsForeignKey="true" DeleteRule="CASCADE" />
+      <Association Name="CMSPage_CMSPageRoleRel" Member="CMSPage" ThisKey="PageID" OtherKey="ID" Type="CMSPage" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.MailingList" Member="MailingLists">
+    <Type Name="MailingList">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Header" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="Letter" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="LetterKey" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(400) NOT NULL" CanBeNull="false" />
+      <Column Name="IsForAdmin" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="TargetMail" Type="System.String" DbType="NVarChar(1000)" CanBeNull="true" />
+      <Column Name="Enabled" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Association Name="MailingList_MailingReplacement" Member="MailingReplacements" ThisKey="ID" OtherKey="MailingID" Type="MailingReplacement" />
+    </Type>
+  </Table>
+  <Table Name="dbo.LentaComments" Member="LentaComments">
+    <Type Name="LentaComment">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="CommentID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="LentaID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="Comment_LentaComment" Member="Comment" ThisKey="CommentID" OtherKey="ID" Type="Comment" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+      <Association Name="Lenta_LentaComment" Member="Lenta" ThisKey="LentaID" OtherKey="ID" Type="Lenta" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Comments" Member="Comments">
+    <Type Name="Comment">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="UserID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="Comment" Member="CommentText" Type="System.String" DbType="NVarChar(500) NOT NULL" CanBeNull="false" />
+      <Column Name="Date" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="ParentCommentID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="Comment_LentaComment" Member="LentaComments" ThisKey="ID" OtherKey="CommentID" Type="LentaComment" />
+      <Association Name="Comment_Comment" Member="Comments" ThisKey="ID" OtherKey="ParentCommentID" Type="Comment" />
+      <Association Name="Comment_MapObjectComment" Member="MapObjectComments" ThisKey="ID" OtherKey="CommentID" Type="MapObjectComment" />
+      <Association Name="User_Comment" Member="User" ThisKey="UserID" OtherKey="UserId" Type="User" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+      <Association Name="Comment_Comment" Member="Comment2" ThisKey="ParentCommentID" OtherKey="ID" Type="Comment" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.CMSPageCellView" Member="CMSPageCellViews">
+    <Type Name="CMSPageCellView">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="CellID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Controller" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Action" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="OrderNum" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Path" Type="System.String" DbType="NVarChar(200) NOT NULL" CanBeNull="false" />
+      <Association Name="CMSPageCellView_CMSPageTextData" Member="CMSPageTextDatas" ThisKey="ID" OtherKey="ViewID" Type="CMSPageTextData" />
+      <Association Name="CMSPageCellView_CMSPageSlider" Member="CMSPageSliders" ThisKey="ID" OtherKey="ViewID" Type="CMSPageSlider" />
+      <Association Name="CMSPageCell_CMSPageCellView" Member="CMSPageCell" ThisKey="CellID" OtherKey="ID" Type="CMSPageCell" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Lenta" Member="Lentas">
+    <Type Name="Lenta">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="PageID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="CellID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="TypeClass" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="HeaderText" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="Link" Type="System.String" DbType="NVarChar(500)" CanBeNull="true" />
+      <Column Name="Image" Type="System.Data.Linq.Binary" DbType="VarBinary(MAX)" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="Photo" Type="System.Data.Linq.Binary" DbType="VarBinary(MAX)" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="Author" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="Text" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="CSS1" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="CSS2" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="CSS3" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="CSS4" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="CSS5" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="ShowInfo" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="ShowTime" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="CreateDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="Visible" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="FullText" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="ViewAmount" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="CategoryName" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Association Name="Lenta_LentaComment" Member="LentaComments" ThisKey="ID" OtherKey="LentaID" Type="LentaComment" />
+      <Association Name="Lenta_UserFavoriteLenta" Member="UserFavoriteLentas" ThisKey="ID" OtherKey="LentaID" Type="UserFavoriteLenta" />
+      <Association Name="CMSPage_Lenta" Member="CMSPage" ThisKey="PageID" OtherKey="ID" Type="CMSPage" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+      <Association Name="CMSPageCell_Lenta" Member="CMSPageCell" ThisKey="CellID" OtherKey="ID" Type="CMSPageCell" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.CMSPageCells" Member="CMSPageCells">
+    <Type Name="CMSPageCell">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="ColumnName" Type="System.String" DbType="NVarChar(500) NOT NULL" CanBeNull="false" />
+      <Column Name="TypeID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Description" Type="System.String" DbType="NVarChar(500) NOT NULL" CanBeNull="false" />
+      <Column Name="Hidden" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="CSS" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Association Name="CMSPageCell_CMSPageCellView" Member="CMSPageCellViews" ThisKey="ID" OtherKey="CellID" Type="CMSPageCellView" />
+      <Association Name="CMSPageCell_Lenta" Member="Lentas" ThisKey="ID" OtherKey="CellID" Type="Lenta" />
+      <Association Name="PageType_CMSPageCell" Member="PageType" ThisKey="TypeID" OtherKey="ID" Type="PageType" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.CMSPageTextData" Member="CMSPageTextDatas">
+    <Type Name="CMSPageTextData">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="CMSPageID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="LangID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Text" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="ViewID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Visible" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="OrderNum" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="CMSPageCellView_CMSPageTextData" Member="CMSPageCellView" ThisKey="ViewID" OtherKey="ID" Type="CMSPageCellView" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+      <Association Name="CMSPage_CMSPageTextData" Member="CMSPage" ThisKey="CMSPageID" OtherKey="ID" Type="CMSPage" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+      <Association Name="Language_CMSPageTextData" Member="Language" ThisKey="LangID" OtherKey="ID" Type="Language" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.MapObjectTypes" Member="MapObjectTypes">
+    <Type Name="MapObjectType">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="TypeName" Type="System.String" DbType="NVarChar(500) NOT NULL" CanBeNull="false" />
+      <Column Name="Icon" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="OrderNum" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="MapObjectType_MapObject" Member="MapObjects" ThisKey="ID" OtherKey="TypeID" Type="MapObject" />
+    </Type>
+  </Table>
+  <Table Name="dbo.MapObjects" Member="MapObjects">
+    <Type Name="MapObject">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(400) NOT NULL" CanBeNull="false" />
+      <Column Name="TypeID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="CreatorID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="CreateDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="ObjectType" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Address" Type="System.String" DbType="NVarChar(1000)" CanBeNull="true" />
+      <Column Name="Description" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Association Name="MapObject_MapObjectPhoto" Member="MapObjectPhoto" ThisKey="ID" OtherKey="ObjectID" Type="MapObjectPhoto" Cardinality="One" />
+      <Association Name="MapObject_MapCoord" Member="MapCoords" ThisKey="ID" OtherKey="ObjectID" Type="MapCoord" />
+      <Association Name="MapObject_MapObjectFavorite" Member="MapObjectFavorites" ThisKey="ID" OtherKey="ObjectID" Type="MapObjectFavorite" />
+      <Association Name="MapObject_MapObjectComment" Member="MapObjectComments" ThisKey="ID" OtherKey="ObjectID" Type="MapObjectComment" />
+      <Association Name="User_MapObject" Member="User" ThisKey="CreatorID" OtherKey="UserId" Type="User" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+      <Association Name="MapObjectType_MapObject" Member="MapObjectType" ThisKey="TypeID" OtherKey="ID" Type="MapObjectType" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.MapObjectPhotos" Member="MapObjectPhotos">
+    <Type Name="MapObjectPhoto">
+      <Column Name="ObjectID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="RawData" Type="System.Data.Linq.Binary" DbType="VarBinary(MAX) NOT NULL" CanBeNull="false" UpdateCheck="Never" />
+      <Association Name="MapObject_MapObjectPhoto" Member="MapObject" ThisKey="ObjectID" OtherKey="ID" Type="MapObject" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.MapCoords" Member="MapCoords">
+    <Type Name="MapCoord">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="XPos" Type="System.Decimal" DbType="Decimal(18,12) NOT NULL" CanBeNull="false" />
+      <Column Name="YPos" Type="System.Decimal" DbType="Decimal(18,12) NOT NULL" CanBeNull="false" />
+      <Column Name="ObjectID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="OrderNum" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="IsMarker" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Association Name="MapObject_MapCoord" Member="MapObject" ThisKey="ObjectID" OtherKey="ID" Type="MapObject" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.MapObjectFavorites" Member="MapObjectFavorites">
+    <Type Name="MapObjectFavorite">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="UserID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="ObjectID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="User_MapObjectFavorite" Member="User" ThisKey="UserID" OtherKey="UserId" Type="User" IsForeignKey="true" />
+      <Association Name="MapObject_MapObjectFavorite" Member="MapObject" ThisKey="ObjectID" OtherKey="ID" Type="MapObject" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.MapObjectComments" Member="MapObjectComments">
+    <Type Name="MapObjectComment">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="CommentID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ObjectID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="Comment_MapObjectComment" Member="Comment" ThisKey="CommentID" OtherKey="ID" Type="Comment" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+      <Association Name="MapObject_MapObjectComment" Member="MapObject" ThisKey="ObjectID" OtherKey="ID" Type="MapObject" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.CMSPageSliders" Member="CMSPageSliders">
+    <Type Name="CMSPageSlider">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Visible" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(1000) NOT NULL" CanBeNull="false" />
+      <Column Name="Text" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="CMSPageID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="LangID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ViewID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="OrderNum" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Img" Type="System.Data.Linq.Binary" DbType="VarBinary(MAX) NOT NULL" CanBeNull="false" UpdateCheck="Never" />
+      <Association Name="CMSPageCellView_CMSPageSlider" Member="CMSPageCellView" ThisKey="ViewID" OtherKey="ID" Type="CMSPageCellView" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+      <Association Name="CMSPage_CMSPageSlider" Member="CMSPage" ThisKey="CMSPageID" OtherKey="ID" Type="CMSPage" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+      <Association Name="Language_CMSPageSlider" Member="Language" ThisKey="LangID" OtherKey="ID" Type="Language" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.MapSelect" Member="MapSelects">
+    <Type Name="MapSelect">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Lat" Type="System.Decimal" DbType="Decimal(18,12) NOT NULL" CanBeNull="false" />
+      <Column Name="Lng" Type="System.Decimal" DbType="Decimal(18,12) NOT NULL" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(512) NOT NULL" CanBeNull="false" />
+      <Column Name="Zoom" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Visible" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="OrderNum" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.UserFavoriteLenta" Member="UserFavoriteLentas">
+    <Type Name="UserFavoriteLenta">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="UserID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="LentaID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="User_UserFavoriteLenta" Member="User" ThisKey="UserID" OtherKey="UserId" Type="User" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+      <Association Name="Lenta_UserFavoriteLenta" Member="Lenta" ThisKey="LentaID" OtherKey="ID" Type="Lenta" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.UserProfiles" Member="UserProfiles">
+    <Type Name="UserProfile">
+      <Column Name="UserID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="Surname" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="Patrinomic" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="FromIP" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="RegDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="HomePhone" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="MobilePhone" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="Nick" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="Avatar" Type="System.Data.Linq.Binary" DbType="VarBinary(MAX)" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="SmokingType" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Town" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Association Name="User_UserProfile" Member="User" ThisKey="UserID" OtherKey="UserId" Type="User" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.UserMessages" Member="UserMessages">
+    <Type Name="UserMessage">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="UserID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="Message" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="Date" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="Sender" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Association Name="User_UserMessage" Member="Recipient" Storage="_User" ThisKey="UserID" OtherKey="UserId" Type="User" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+      <Association Name="User_UserMessage1" Member="Poster" Storage="_User1" ThisKey="Sender" OtherKey="UserId" Type="User" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Function Name="dbo.getPageList" Method="getPageList" IsComposable="true">
+    <Parameter Name="parentURL" Type="System.String" DbType="NVarChar(400)" />
+    <Parameter Name="lid" Type="System.Int32" DbType="Int" />
+    <ElementType Name="getPageListResult">
+      <Column Name="ID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="URL" Type="System.String" DbType="NVarChar(400)" CanBeNull="true" />
+      <Column Name="ParentID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Visible" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="ViewMenu" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="TreeLevel" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Type" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="FullURL" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="OrderNum" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="BreadCrumbs" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="LinkedBreadCrumbs" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="PageName" Type="System.String" DbType="NVarChar(400) NOT NULL" CanBeNull="false" />
+      <Column Name="FullName" Type="System.String" DbType="NVarChar(400) NOT NULL" CanBeNull="false" />
+      <Column Name="Title" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="Keywords" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="Description" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+</Database>

@@ -1,0 +1,27 @@
+﻿@if (false)
+{
+    if (HttpContext.Current.User.Identity.IsAuthenticated)
+    {
+    <div class="login-box" style="color: #ea8523; padding-left: 30px; text-align: left">
+        @Html.Raw(string.Format(LabelDictionary.Translate("Добро пожаловать, {0}!"), @Membership.GetUser().GetProfile().NickOrNameOrMail))
+        <br />
+        @Html.ActionLink("Выход", "Exit", "Account")
+    </div>
+    }
+    else
+    {
+    <a href="@(new DB().CMSPages.First(x => x.PageType.TypeName == "Register").FullUrl)" class="btn-community">Вступить в сообщество</a>
+    <form>
+        <div class="login-box">
+            <input type="text" data-placeholder="@Html.LangLabel("E-mail")">
+            <input type="password" data-placeholder="@Html.LangLabel("Пароль")">
+            <!--<label class="cb">
+                     <input type="checkbox">
+                     @Html.LangLabel("Запомнить меня")
+                 </label>-->
+            <input type="submit" value="@Html.LangLabel("Вход")">
+            <div class="reg-error"></div>
+        </div>
+    </form>
+    }
+}

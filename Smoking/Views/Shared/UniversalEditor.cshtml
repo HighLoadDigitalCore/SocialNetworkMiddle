@@ -1,0 +1,69 @@
+﻿@using System.Collections
+@model UniversalEditorPagedData
+@if (Model.CurrentType == CurrentEditorType.List)
+{
+    
+    <fieldset>
+        @if (Model.Settings.Filters != null && Model.Settings.Filters.Any())
+        {
+            
+            @Html.Hidden("BaseURL", Url.Action(Model.CallerAction, Model.CallerController, new { Page = Model.Page }, null))
+
+            <table id="@(Model.Settings.AutoFilter ? "AutoFilterTable" : "FilterTable")">
+                @foreach (var filter in Model.Settings.Filters)
+                {
+                    <tr>
+                        <td>@filter.HeaderText</td>
+                        <td>@if (filter.IsDropDown)
+                            {
+                            @(filter.FilterSource.HasEmptyDef ?
+                            Html.DropDownList(filter.QueryKey, new SelectList((IEnumerable)filter.FilterSource.Source, filter.FilterSource.KeyField, filter.FilterSource.ValueField, filter.ValueFromQuery), "", new { main = filter.MainFilter ? "1" : "0" }) :
+                                Html.DropDownList(filter.QueryKey, new SelectList((IEnumerable)filter.FilterSource.Source, filter.FilterSource.KeyField, filter.FilterSource.ValueField, filter.ValueFromQuery), new { main = filter.MainFilter ? "1" : "0" }))
+                            }
+                        </td>
+                    </tr>
+                }
+            </table> 
+            <hr />
+            <br />
+        }
+
+        @if (Model.AddView != null && !Model.AddView.InEditor)
+        {
+            @Html.Action(Model.AddView.Action, Model.AddView.Controller, Model.AddView.Routes)
+        }
+
+        <h4>Список доступных объектов:</h4>
+        <table class="grid" style="width: 100%">
+            <tr>
+                @foreach (var column in Model.Settings.ShowedFieldsInList)
+                {
+                    <th>@column.HeaderText</th>    
+                }
+                @if (Model.Settings.HasDeleteColumn)
+                {
+                    <th></th>    
+                }
+            </tr>
+            @Html.Partial("UniversalList", Model)
+        </table>
+        <br />
+        @Model.PagedData.ExecuteMethod("PagerMenu", Html)
+
+    </fieldset>
+                if (Model.Settings.CanAddNew)
+                {
+    <div class="backref">
+        @Html.ActionLinkQuery("Добавить", Model.CallerAction, Model.CallerController, Model.FilterParams, new { Type = "Edit" }, null)
+    </div>
+                }
+
+}
+else if (Model.CurrentType == CurrentEditorType.Edit)
+{
+    @Html.Partial("UniversalEdit", Model)
+}
+else if (Model.CurrentType == CurrentEditorType.Delete)
+{
+    @Html.Partial("UniversalDelete", Model)
+}

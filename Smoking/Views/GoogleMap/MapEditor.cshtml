@@ -1,0 +1,27 @@
+﻿@*
+<div class="editor-asidecontrols" style="@(AccessHelper.CurrentPageInfo.URL == "map" ? "display: none":"")">
+    <h2>Редактор карты</h2>
+    @if (!HttpContext.Current.User.Identity.IsAuthenticated)
+    {
+        <a href="#" data-fancybox="#enter" class="btn -blue -biground -shaded -wide"><i class="icon-add icon-add_style1"></i>Добавить объект</a>
+        <a href="#" data-fancybox="#enter" class="btn -green -biground -shaded -wide"><i class="icon-zone"></i>Добавить зону</a>
+
+        <p class="note">Для редактирования карты вам необходимо <a href="" data-fancybox="#enter">войти на сайт</a></p>
+    }
+    else if (AccessHelper.CurrentPageInfo.CurrentPage.URL == "map")
+    {
+        <a href="#" action="0" class="btn -blue -biground -shaded -wide"><i class="icon-add icon-add_style1"></i>Добавить объект</a>
+        <a href="#" action="1" class="btn -green -biground -shaded -wide"><i class="icon-zone"></i>Добавить зону</a>
+    }
+    else
+    {
+        <a href="/map" class="btn -blue -biground -shaded -wide"><i class="icon-add icon-add_style1"></i>Добавить объект</a>
+        <a href="/map" class="btn -green -biground -shaded -wide"><i class="icon-zone"></i>Добавить зону</a>
+        
+    }
+</div>
+@Html.Action("AuthPopup", "CommonBlocks")
+<div style="display: none">
+    @Html.Action("Socials", "SocialAuth")
+</div>
+*@

@@ -1,0 +1,34 @@
+﻿@model IEnumerable<Comment>
+<ul class="comments">
+    @foreach (var comment in Model)
+    {
+        <li>
+            <p class="name"><a href="@comment.CommentedObjectLink">@comment.CommentedObject</a></p>
+            <p class="timestamp"><span>@comment.Date.ToString("dd.MM.yyyy")</span> @comment.Date.ToString("HH:mm")</p>
+            <div class="photo-small">
+                <img src="@comment.User.Profile.GetAvatarLink(50)">
+            </div>
+            <div class="comment">
+                @Html.Raw(comment.CommentText)
+            </div>
+            @if (comment.Comments.Any())
+            {
+                <ul class="comments">
+                    @foreach (var comments in comment.Comments)
+                    {
+                        <li>
+                            <p class="name"><a href="@comment.CommentedObjectLink">@comment.CommentedObject</a></p>
+                            <p class="timestamp"><span>@comments.Date.ToString("dd.MM.yyyy")</span> @comment.Date.ToString("HH:mm")</p>
+                            <div class="photo-small">
+                                <img src="@comments.User.Profile.GetAvatarLink(50)">
+                            </div>
+                            <div class="comment">
+                                @Html.Raw(comments.CommentText)
+                            </div>
+                        </li>
+                    }
+                </ul>
+            }
+        </li>
+    }
+</ul>

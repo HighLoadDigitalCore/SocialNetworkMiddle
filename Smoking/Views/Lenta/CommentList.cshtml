@@ -1,0 +1,35 @@
+﻿@model IEnumerable<Comment>
+<div class="comments-list">
+    @foreach (var comment in Model)
+    {
+        <dl>
+            <dt>
+                <div class="photo-small">
+                    <img src="@comment.User.Profile.GetAvatarLink(50)">
+                </div>
+                <a class="name" href="@CMSPage.Get("myobjects").FullUrl?uid=@comment.UserID">@comment.User.Profile.FullName</a>
+            </dt>
+            <dd>
+                <p>@comment.CommentText</p>
+            </dd>
+        </dl>
+        
+        
+        var reply = comment.Comments.Where(x => x.ParentCommentID == comment.ID);
+
+        foreach (var sub in reply)
+        {
+        <dl class="reply">
+            <dt>
+                <div class="photo-small">
+                    <img src="@sub.User.Profile.GetAvatarLink(50)">
+                </div>
+                <a class="name" href="@sub.User.Profile.EditProfilePage">@sub.User.Profile.FullName</a>
+            </dt>
+            <dd>
+                <p>@sub.CommentText</p>
+            </dd>
+        </dl>
+        }
+    }
+</div>

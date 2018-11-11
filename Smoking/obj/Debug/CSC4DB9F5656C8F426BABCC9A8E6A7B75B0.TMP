@@ -1,0 +1,46 @@
+lative;
+}
+
+.layout-twocols aside.primary {
+    width: 240px;
+    float: right;
+    padding-left: 10px;
+    background: url("../i/sprite35.png") 0 0 repeat-y;
+}
+
+.layout-twocols .content {
+    width: 627px;
+    float: left;
+}
+
+aside.primary {
+    width: 965px;
+    height: 77px;
+    margin: 0 auto;
+    display: block;
+}
+
+aside.secondary {
+    width: 340px;
+    height: 70px;
+    margin: 18px auto 0px;
+    display: block;
+}
+
+nav.secondary a {
+    text-align: center;
+    display: block;
+    margin-bottom: 8px;
+    color: #fff;
+    text-decoration: none;
+    float: left;
+    max-width: 102px;
+    min-width: 102px;
+}
+
+.layout-threecols {
+    margin-left: 20px!important;
+    width: 920px;
+}
+
+    .layout-th

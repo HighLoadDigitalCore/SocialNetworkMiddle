@@ -1,0 +1,82 @@
+﻿@using System.Configuration
+<!DOCTYPE html>
+<html>
+<head>
+    <title>@AccessHelper.CurrentPageInfo.Title</title>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="keywords" content="@AccessHelper.CurrentPageInfo.Keywords" />
+    <meta name="description" content="@AccessHelper.CurrentPageInfo.Description" />
+
+    <link rel="stylesheet" href="/content/client/css/style.css" />
+    <link rel="stylesheet" href="/content/client/css/jquery.alerts.css" />
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="/content/client/js/libs/jquery-1.10.2.min.js"><\/script>')</script>
+    <!--[if lt IE 9]><script src="/content/client/js/libs/libs.ltie9.js"></script><![endif]-->
+    <!--[if lte IE 9]><script src="/content/client/js/libs/PIE.js"></script><![endif]-->
+</head>
+<body>
+    @Html.Hidden("LangCode", AccessHelper.CurrentLang.ShortName)
+    @Html.Hidden("LangID", AccessHelper.CurrentLang.ID)
+    @Html.Hidden("GoogleAPI", ConfigurationManager.AppSettings["GoogleApiKey"])
+
+    <div class="container@(AccessHelper.IsMainPage ? " container-main" : "")">
+        <div class="layout">
+            <aside class="aside">
+                <a href="@(AccessHelper.IsMainPage ? "#" : "/")" class="logo">@*@(SiteSetting.Get<string>("Logo"))*@<img src="/content/client/i/logo.png"/></a>
+                @*<div class="motto">@(SiteSetting.Get<string>("SloganHeader"))</div>*@
+                @RenderSection("LeftColumn", false)
+
+            </aside>
+
+            <section class="main">
+                <header class="header">
+                    @RenderSection("Header", false)
+                </header>
+                <section class="content @(AccessHelper.BodyContentClass)">
+                    @RenderBody()
+                </section>
+            </section>
+
+            <footer class="footer">
+                <p class="logo">@(SiteSetting.Get<string>("Logo"))</p>
+                <p>@(Html.Raw(SiteSetting.Get<string>("SloganFooter")))</p>
+                <p>@(Html.Raw(SiteSetting.Get<string>("CopyRight").Replace("{YEAR}", DateTime.Now.Year.ToString())))</p>
+            </footer>
+        </div>
+    </div>
+    @if (AccessHelper.IsMainPage)
+    {
+        <div id="newsContainer" class="container">
+        </div>
+    }
+    <script src="/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="/content/client/js/libs/libs.js"></script>
+    <script src="/Scripts/jquery.enhanced.cookie.js"></script>
+    <script src="/content/client/js/libs/String.js"></script>
+    <script src="/content/client/js/libs/maps.google.polygon.containsLatLng.js"></script>
+    <script src="/Scripts/FileUploadAJAX/jquery.ui.widget.js"></script>
+    <script src="/Scripts/FileUploadAJAX/jquery.iframe-transport.js"></script>
+    <script src="/Scripts/FileUploadAJAX/jquery.fileupload.js"></script>
+    <script src="/Scripts/FileUpload/jquery.upload-init.js"></script>
+    <script src="/content/client/js/libs/jquery.alerts.js"></script>
+    <script src="/content/client/js/script.js?rnd=@(new Random().Next(100, 999))"></script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,15 @@
+﻿@model MapModel
+<div class="objects-list" typeid="0">
+    <h2>Объекты</h2>
+    @foreach (var obj in Model.ObjectTypes)
+    {
+        <a title="@obj.TypeName" href="#" ><i class="@obj.Icon" type-name-id="@obj.ID" typeid="0"></i></a>    
+    }
+</div>
+<div class="objects-list" typeid="1" style="display: none">
+    <h2>Зоны</h2>
+    @foreach (var obj in Model.ObjectTypes)
+    {
+        <a title="@obj.TypeName" href="#" ><i class="@obj.Icon" type-name-id="@obj.ID" typeid="1" ></i></a>    
+    }
+</div>

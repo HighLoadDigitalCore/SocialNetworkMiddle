@@ -1,0 +1,100 @@
+﻿@using System.Linq
+@model UserProfile
+@if (Model.User != null && !(CMSPage.GetByType("ProfileZones").Any(z => z.ID == AccessHelper.CurrentPageInfo.ID) && Request.QueryString["oid"].IsFilled()))
+{
+    <div class="profile">
+        <div class="col col-photo">
+            <div class="photo">
+                @if (Model.UserID == AccessHelper.CurrentUserKey)
+                {
+                    @Html.Raw("<a title=\"Загрузить фото\" href=\"#\" data-fancybox=\"#photo\" uid=\"" + Model.UserID + "\">")
+                }
+                <img src="@Model.GetAvatarLink(130)">
+                @if (Model.UserID == AccessHelper.CurrentUserKey)
+                {
+                    @Html.Raw("</a>")
+                    <div id="photo" style="width: 450px; display: none">
+                        <h2>Загрузить фото</h2>
+                        <dl class="form form1">
+                            <p class="btn -green">
+                                <input type="file" id="UserPhotoUploader" data-text="Выберите фото" />
+                            </p>
+                            <p id="message">
+                            </p>
+                        </dl>
+                    </div>
+                }
+            </div>
+        </div>
+        <div class="col col-info">
+            <p class="name">@Model.FullName</p>
+            <p class="city">@Model.Town</p>
+            <p class="smoking">@Model.SmokingStatus</p>
+            @if (Model.UserID != AccessHelper.CurrentUserKey && HttpContext.Current.User.Identity.IsAuthenticated)
+            {
+                <a href="#" data-fancybox="#personalMessage" class="btn -lgreen">Личное сообщение</a>
+                <div id="personalMessage" style="width: 450px; display: none">
+                    <h2>Отправить личное сообщение</h2>
+                    <dl class="form form1">
+                        <dt>Ваше сообщение:</dt>
+                        <p>
+                            <textarea id="PrivateMessage" style="height: 130px"></textarea>
+                            <input type="hidden" id="PrivateUser" value="@Model.UserID" />
+                            <span id="PrivateError"></span>
+                        </p>
+                        <p><a class="btn -green" id="PrivateMessageButton" href="#" onclick="messageSend();return false; ">Отправить</a></p>
+                    </dl>
+                    <div style="display: none" id="resultText"><a href="@(CMSPage.GetByType("ProfileMessages").First().FullUrl + "?author=" + Model.UserID)">Перейти к диалогу с @(Membership.GetUser(Model.UserID).GetProfile().FullName)</a></div>
+                </div>
+            }
+        </div>
+        @{
+            var zoneCount = Model.User.MapObjects.Count(x => x.MapCoords.Any(z => !z.IsMarker));
+            var pointCount = Model.User.MapObjects.Count(x => x.MapCoords.All(z => z.IsMarker));
+        }
+        <div class="col col-info1">
+            <p>Написал(а): <strong><a href="@Model.UserCommentLink">@Model.User.Comments.Count</a></strong> комментари@(AccessHelper.Pluralize(Model.User.Comments.Count, new[] { "ев", "й", "я" }))</p>
+            <p>Создал(а): <strong><a href="@Model.UserPointsLink">@pointCount</a></strong> мет@(AccessHelper.Pluralize(pointCount, new[] { "ок", "ку", "ки" })) и <strong><a href="@Model.UserZonesLink">@zoneCount</a></strong> зон@(AccessHelper.Pluralize(zoneCount, new[] { "", "а", "ы" }))</p>
+            <p>Загрузил(а): <strong><a href="@Model.UserZonesLink">@Model.User.MapObjects.Count(x => x.MapObjectPhoto != null)</a></strong> фото</p>
+        </div>
+    </div>
+}
+else
+{
+    var obj = MapObject.getByID();
+    if (obj != null)
+    {
+    <div class="profile">
+        <div class="col col-photo">
+            <div class="photo">
+                <img style="min-height: 130px" src="@obj.PhotoLink">
+            </div>
+        </div>
+        <div class="col col-info">
+            <p class="name">@obj.Name</p>
+            <p class="city">@obj.Address</p>
+            <p class="smoking">@obj.SmokingStatusShort</p>
+            @if (obj.CanEdit)
+            {
+                <a href="@CMSPage.Get("map").FullUrl#EditObj=@obj.ID" class="btn -lgreen">Редактировать</a>
+                @Html.ActionLink("Удалить", "Delete", "GoogleMap", new { oid = obj.ID, uid = AccessHelper.ProfileUID }, new { @class = "btn -lgreen del-btn", onclick = "" })
+            }
+        </div>
+        <div class="col col-info1">
+            <p><strong>@obj.MapObjectComments.Count</strong> комментари@(AccessHelper.Pluralize(obj.MapObjectComments.Count, new[] { "ев", "й", "я" }))</p>
+            @if (obj.MapCoords.Any(x => !x.IsMarker))
+            {
+                <p>Входит в <strong>1</strong> зону</p>
+            }
+            @if (obj.MapObjectPhoto != null)
+            {
+                <p><strong>1</strong> фото</p>
+            }
+            else
+            {
+                <p>без фото</p>
+            }
+        </div>
+    </div>
+    }
+}

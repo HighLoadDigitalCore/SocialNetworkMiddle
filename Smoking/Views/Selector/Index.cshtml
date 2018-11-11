@@ -1,0 +1,36 @@
+﻿@model CommonPageInfo
+@{
+    Layout = "~/Views/Shared/" + Model.Layout + ".cshtml";
+}
+
+@section LeftColumn{
+    @foreach (var x in Model.CurrentPage.PageType.CMSPageCells.First(x => x.ColumnName == "LeftColumn").CMSPageCellViews.OrderBy(x => x.OrderNum))
+    {
+        @Html.Action(x.Action, x.Controller, new {ViewID = x.ID, x.CellID})
+    }
+}
+
+
+@section Header{
+    @foreach (var x in Model.CurrentPage.PageType.CMSPageCells.First(x => x.ColumnName == "Header").CMSPageCellViews.OrderBy(x => x.OrderNum))
+    {
+        @Html.Action(x.Action, x.Controller, new {ViewID = x.ID, x.CellID})
+    }
+}
+
+@foreach (var x in Model.CurrentPage.PageType.CMSPageCells.First(x => x.ColumnName == "Body").CMSPageCellViews.OrderBy(x => x.OrderNum))
+{
+    try
+    {
+        @Html.Action(x.Action, x.Controller, new {ViewID = x.ID, x.CellID})
+    }
+    catch (Exception e)
+    {
+        <div>
+            <h1>@e.Message</h1>
+            <span>@e.StackTrace</span>
+        </div>
+    }
+}
+
+

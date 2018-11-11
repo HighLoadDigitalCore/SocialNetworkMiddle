@@ -1,0 +1,612 @@
+﻿html {
+    height: 100%;
+}
+
+body {
+    font-size: .85em;
+    font-family: "Segoe UI", Verdana, Helvetica, Sans-Serif;
+    color: #232323;
+    background-color: #fff;
+    min-width: 1024px;
+    height: 100%;
+}
+
+fieldset h4 {
+    margin-top: 0px;
+}
+.p-name {
+    font-size: 20px;
+    font-weight: bold;
+}
+.p-isbn {
+    font-weight: bold;
+}
+.cbxList
+{
+}
+.d-link-block {
+    margin: 15px 0;
+}
+.d-link:hover {
+    background-color: gray;
+}
+.d-link {
+    display: inline-block;
+    padding: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    color: black;
+    margin-bottom: 10px;
+}
+.ui-timepicker-div .ui-widget-header { margin-bottom: 8px; }
+.ui-timepicker-div dl { text-align: left; }
+.ui-timepicker-div dl dt { height: 25px; margin-bottom: -25px; }
+.ui-timepicker-div dl dd { margin: 0 10px 10px 65px; }
+.ui-timepicker-div td { font-size: 90%; }
+.ui-tpicker-grid-label { background: none; border: none; margin: 0; padding: 0; }
+
+.ui-timepicker-rtl{ direction: rtl; }
+.ui-timepicker-rtl dl { text-align: right; }
+.ui-timepicker-rtl dl dd { margin: 0 65px 10px 10px; }
+.cbxList div label
+{
+    font-weight: normal !important;
+    font-size: 13px;
+}
+.cbxList div
+{
+    width: 400px;
+    padding: 3px;
+    display: inline-block;
+    white-space: nowrap;
+
+}
+.repl-list {
+    overflow: hidden;
+    clear: both;
+    border: 1px dashed gray;
+    width: 100%;
+    padding-bottom: 15px;
+}
+.repl-name {
+    float: left;
+    padding-top: 3px;
+}
+.replacement h4 {
+    margin: 5px 0 0;
+}
+.replacement {
+    clear: both;
+    overflow: hidden;
+}
+.replacement small {
+    margin-bottom: 15px;
+    display: inline-block;
+}
+.repl-val {
+    float: left;
+    margin-right: 5px;
+    font-weight: bold;
+    font-size: 16px;
+}
+.searched-tags span {
+    margin-right: 3px;
+    cursor: pointer;
+}
+
+    .searched-tags span:hover {
+        background-color: lightgrey;
+    }
+
+.searched-tags {
+    width: 100%;
+    height: 200px;
+    overflow-y: scroll;
+}
+.box-cell {
+    width: 170px;
+    margin-right: 10px;
+    overflow: hidden;
+    white-space: nowrap;
+    float: left;
+}
+.tagl {
+    margin: 0 10px 0 0;
+    font-size: 16px;
+    text-decoration: none;
+    color: black;
+}
+
+    .tagl:hover {
+        background-color: lightgrey;
+    }
+
+.w99 input, .w99 textarea {
+    width: 99%!important;
+}
+
+.w99 select {
+    width: 100%!important;
+}
+
+.w99 input[type="checkbox"] {
+    width: auto!important;
+}
+
+header, footer, nav, section {
+    display: block;
+}
+
+h3 {
+    margin: 10px 0px;
+}
+
+.tree-scroller {
+    height: 250px;
+    overflow: scroll;
+}
+
+.grid-auto td {
+    padding: 0 10px;
+}
+
+.grid-auto input {
+    width: 100%!important;
+}
+
+.message-box {
+    height: 300px;
+    overflow: scroll;
+    max-width: 800px;
+}
+
+.checkbox-cell {
+    float: left;
+    margin-right: 10px;
+}
+
+.tag-box {
+    width: 600px;
+}
+
+.checkbox-cell input[type="checkbox"] {
+    margin: 6px 2px 0 0;
+}
+
+.pager a {
+    display: inline-block;
+}
+
+.pager {
+    max-width: 700px;
+}
+
+.left-master-tbl a {
+    white-space: nowrap;
+}
+
+.vspace td, .vspace th {
+    padding: 3px 10px 3px 0!important;
+}
+
+.common-grid td {
+    font-size: 11px;
+    padding-top: 3px!important;
+}
+
+.common-grid .red {
+    color: red;
+}
+
+.odd {
+    background-color: #EBF1FD;
+}
+
+.grid {
+    border-collapse: collapse;
+}
+
+    .grid td, .grid th {
+        text-align: left;
+        padding: 0 10px 0 0;
+    }
+
+    .grid th {
+        border-bottom: 1px solid gray;
+    }
+
+.all-red * {
+    color: lightsalmon;
+}
+
+.errors {
+    color: red;
+}
+
+.created, .updated, .dirs {
+    color: green;
+}
+/* Styles for basic forms
+-----------------------------------------------------------*/
+fieldset {
+    border: 1px solid #ddd;
+    padding: 1.4em 1.4em 1.4em 1.4em;
+    margin: 0 0 1.5em 0;
+}
+
+legend {
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+
+
+textarea {
+    min-height: 75px;
+}
+
+.editor-label {
+    margin: 4px 0 0 0;
+}
+
+.editor-field {
+    margin: 0 0 0 0;
+}
+
+
+/* Styles for validation helpers
+-----------------------------------------------------------*/
+
+.field-validation-valid {
+    display: none;
+}
+
+.input-validation-error {
+    border: 1px solid #f00;
+    background-color: #fee;
+}
+
+.validation-summary-errors {
+    font-weight: bold;
+    color: #f00;
+}
+
+.validation-summary-valid {
+    display: none;
+}
+
+fieldset select {
+    vertical-align: middle;
+    height: 30px;
+    width: 462px;
+    padding: 4px;
+    font-size: 14px;
+}
+
+fieldset input[type="submit"] {
+    height: 35px;
+}
+
+fieldset {
+    margin: 10px;
+    border: 1px solid #dddddd;
+}
+
+.backref a {
+    color: black;
+    font-size: 16px;
+}
+
+    .backref a:hover {
+        background-color: #c7d1d6;
+    }
+
+h2 {
+    margin: 0 10px;
+}
+
+.backref {
+    margin: 10px 0 0 20px;
+}
+
+fieldset legend {
+    display: none;
+}
+
+fieldset textarea, fieldset input[type="text"], fieldset input[type="number"], fieldset input[type="password"], .login input[type="text"], .login input[type="password"] {
+    border: 1px solid #E2E2E2;
+    color: #333333;
+    font-size: 1.2em;
+    margin: 5px 0 3px;
+    padding: 5px;
+    width: 300px;
+}
+
+fieldset textarea, fieldset input[type="text"], fieldset input[type="number"], fieldset input[type="password"] {
+    width: 450px;
+}
+
+fieldset textarea {
+    height: 100px;
+}
+
+fieldset label {
+    /*display: block;*/
+    font-size: 1.2em;
+    font-weight: 600;
+}
+
+textarea.input-validation-error, input.input-validation-error[type="text"], input.input-validation-error[type="password"] {
+    border: 1px solid #E80C4D;
+}
+
+.field-validation-error {
+    color: #E80C4D;
+    display: block;
+    font-size: 11px;
+    font-weight: bold;
+    width: 390px;
+}
+
+.field-validation-valid {
+    display: none;
+}
+
+.attention {
+    color: #E80C4D;
+}
+
+.validation-summary-errors ul {
+    margin-left: 0;
+    padding-left: 15px;
+}
+
+.validation-summary-errors li {
+    list-style-type: none;
+}
+
+.validation-summary-errors {
+    color: #E80C4D;
+    font-size: 1.1em;
+    font-weight: bold;
+}
+
+.validation-summary-valid {
+    display: none;
+}
+
+fieldset input[type="checkbox"] {
+    margin-left: 0px;
+    margin-right: 7px;
+    margin-top: 4px;
+    text-align: left;
+}
+
+fieldset input[type="text"]:focus, fieldset textarea:focus, fieldset input[type="password"]:focus, .login input[type="text"]:focus, .login input[type="password"]:focus {
+    border: 1px solid #7AC0DA;
+}
+
+.editor-field {
+    width: auto;
+}
+
+.editor-label {
+    font-size: 12px;
+}
+
+fieldset {
+    clear: both;
+}
+
+
+.editpage {
+    background-position: 0 -49px;
+}
+
+.addpage {
+    background-position: -54px -49px;
+}
+
+.delpage {
+    background-position: -72px -49px;
+}
+
+.editpage, .addpage, .delpage {
+    background-image: url("/Content/images.png");
+    background-repeat: no-repeat;
+    display: block;
+    float: right;
+    height: 16px;
+    margin-left: 7px;
+    padding: 0 !important;
+    position: relative;
+    width: 16px;
+}
+
+#tree {
+}
+
+    #tree li a {
+    }
+
+    #tree .btns a {
+        margin-left: 2px;
+    }
+
+    #tree .btns {
+        display: none;
+        height: 12px;
+        margin: 0 0 2px 10px;
+    }
+
+
+
+.login header {
+}
+
+.login span {
+    font-weight: bold;
+}
+
+
+.login input[type="submit"] {
+    text-align: center;
+    width: 150px;
+    height: 30px;
+}
+
+.login h2 {
+    text-align: center;
+    font-size: 24px;
+    color: cadetblue;
+    margin-top: 0;
+}
+
+.login {
+    padding: 15px;
+    border: 1px solid gray;
+    width: 600px;
+    text-align: left;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.login-cell {
+    padding-top: 150px;
+}
+
+.center {
+    text-align: center;
+}
+
+.master-tbl {
+    width: 100%;
+    height: 100%;
+}
+
+.left-master-tbl {
+    width: 250px;
+    border-right: 1px solid lightgray;
+    vertical-align: top;
+}
+
+    .left-master-tbl .backref a {
+        font-size: 17px;
+        text-decoration: none;
+        padding: 0 3px;
+    }
+
+    .left-master-tbl .backref {
+        padding-right: 15px;
+        margin-left: 7px;
+    }
+
+        .left-master-tbl .backref ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+            .left-master-tbl .backref ul li {
+                margin-left: 0;
+                margin-bottom: 5px;
+            }
+
+                .left-master-tbl .backref ul li ul li a {
+                    font-size: 12px !important;
+                    font-weight: bold;
+                }
+
+                .left-master-tbl .backref ul li ul li {
+                    margin-left: 20px;
+                }
+
+.catalog-tree {
+    width: 400px;
+    border: 1px solid lightgray;
+    height: 300px;
+    float: left;
+    margin-left: 30px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+
+    .catalog-tree #tree {
+        margin: 5px;
+    }
+
+.tree-submit {
+    margin-top: 15px;
+    margin-left: 30px;
+}
+
+.editable {
+    cursor: pointer;
+}
+
+.editing {
+    cursor: auto;
+}
+
+    .editing input {
+        height: 10px;
+        width: 40px!important;
+    }
+
+    .editing .btns {
+        width: 52px;
+    }
+
+.accept {
+    background: url(/Content/client/i/accept.png);
+    width: 19px;
+    height: 15px;
+    display: inline-block;
+    float: left;
+}
+
+.cancel {
+    background: url(/Content/client/i/cancel.png);
+    height: 15px;
+    width: 15px;
+    display: inline-block;
+    float: right;
+}
+
+.publishers-grid {
+    width: 100%;
+}
+
+    .publishers-grid td input[type="text"] {
+        width: 80px!important;
+    }
+
+.switcher {
+    font-size: 14px;
+    font-weight: bold;
+    margin-left: 10px;
+}
+
+.group-name {
+    font-size: 17px;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+    .group-name * {
+        color: darkgray;
+        text-decoration: none;
+        border-bottom: 1px dotted gray;
+        cursor: pointer;
+    }
+
+.group-content {
+    margin-bottom: 15px;
+}
+
+    .group-content hr {
+        color: darkgray;
+        background-color: darkgray;
+        height: 1px;
+        opacity: 0.5;
+    }

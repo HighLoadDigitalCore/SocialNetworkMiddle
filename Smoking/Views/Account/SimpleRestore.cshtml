@@ -1,0 +1,27 @@
+﻿@model RestoreModel
+@*<div id="SimpleRestore">*@
+    @using (Ajax.BeginForm("SimpleRestore", new AjaxOptions() { HttpMethod = "POST", InsertionMode = InsertionMode.Replace, UpdateTargetId = "SimpleRestore" }))
+    {
+        <div class="form form-login form-remember">
+            <dl>
+                <dd>
+                    <input name="Email" type="text" data-placeholder="Адрес вашей электронной почты" />
+                    <a href="#" onclick="return  changeFormTo('.form-auth', '.form-remember');" class="text-style2">Вернуться к авторизации</a>
+                </dd>
+            </dl>
+            @if (Model.ErrorText.IsFilled())
+            {
+                <dl class="error">
+                    <dd>
+                        @Model.ErrorText
+                    </dd>
+                </dl>
+            }
+            <dl>
+                <dd>
+                    <div style="width: 400px; text-align: right"><a class="btn -green -submit" href="#" onclick="return submitForm('#SimpleRestore');" style="width: 150px;">Напомнить</a></div>
+                </dd>
+            </dl>
+        </div>
+    }
+@*</div>*@

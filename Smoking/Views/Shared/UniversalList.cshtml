@@ -1,0 +1,40 @@
+﻿@using System.Collections
+@model UniversalEditorPagedData
+
+@foreach (var row in (IEnumerable)Model.PagedData)
+{
+    <tr>
+        @foreach (var field in Model.Settings.ShowedFieldsInList)
+        {
+            <td @(field.Width.HasValue ? "style=width:" + field.Width + "px" : "")>
+
+                @if (field.Template.IsFilled())
+                {
+                    @Html.Raw(field.Template.Substring(0, field.Template.IndexOf("{{0}}", StringComparison.CurrentCulture)))
+                }
+                @if (field.IsLinkToEdit)
+                {
+                    @Html.ActionLinkQuery(UniversalEditorSettings.DefaultTextChecker(field.CheckedText(row.GetPropertyValue(field.FieldName))), Model.CallerAction, Model.CallerController, Model.FilterParams, new { Type = "Edit", UID = row.GetPropertyValue(Model.Settings.UIDColumnName), Page = Request.QueryString["Page"].ToInt() }, null)
+                }
+                else if (field.IsOrderColumn)
+                {
+                    @Html.TextBox("OrderNum_" + row.GetPropertyValue(Model.Settings.UIDColumnName), row.GetPropertyValue(field.FieldName), new { box = "orderbox", target = "UniversalEditor", action = "changeOrder", arg = row.GetPropertyValue(Model.Settings.UIDColumnName), page = Model.PagedData.GetPropertyValue("PageIndex"), oldval = row.GetPropertyValue(field.FieldName), tablename = Model.Settings.TableName, uidname = Model.Settings.UIDColumnName, ordername = field.FieldName, cc = Model.CallerController, ca = Model.CallerAction, style = "width:40px", addqs = Model.AddQueryParamsJoin })
+                }
+                else
+                {
+                    @Html.Raw(field.CheckedText(row.GetPropertyValue(field.FieldName)))
+                }
+                @if (field.Template.IsFilled())
+                {
+                    @Html.Raw(field.Template.Substring(field.Template.IndexOf("{{0}}", StringComparison.CurrentCulture) + 5))
+                }
+
+            </td>
+        }
+        @if (Model.Settings.HasDeleteColumn)
+        {
+            <td>@Html.ActionLinkQuery("удалить", Model.CallerAction, Model.CallerController, Model.FilterParams, new { Type = "Delete", UID = row.GetPropertyValue(Model.Settings.UIDColumnName), Page = Request.QueryString["Page"].ToInt() }, null)</td>
+        }
+    </tr>
+}
+

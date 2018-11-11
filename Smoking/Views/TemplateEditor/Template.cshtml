@@ -1,0 +1,73 @@
+﻿@{
+    ViewBag.Title = "Редактирование шаблонов";
+    Layout = "~/Views/Shared/_Master.cshtml";
+}
+@model ClientTemplate
+<h2>Редактирование шаблонов</h2>
+@Html.ValidationSummary(true)
+<fieldset>
+    @Html.DropDownList("Template", ViewBag.TemplateList as SelectList)
+    <br />
+    <small style="color: orangered">Внимание! Некорректное редактирование шаблонов и функциональных блоков может привести к неработоспособности сайта</small>
+
+    <br />
+    <br />
+
+
+    @if (Model != null)
+    {
+        <b>Редактирование шаблона "@Model.Name"
+        <br />
+            Относительный путь к файлу: @Model.Path
+            <br />
+            Абсолютный путь к файлу: @Server.MapPath(Model.Path)
+        </b>
+        <br />
+        using (Html.BeginForm())
+        {
+        
+        <div class="editor-label">
+            <label for="FileContent">
+                Содержимое шаблона:</label>
+        </div>
+        <div class="editor-field" style="border: 1px solid lightgray; width: 900px;">
+            @Html.TextArea("FileContent", Model.FileContent, new { style = "width:900px;height:500px" })
+        </div>
+        <br />
+        <input type="submit" value="Сохранить изменения" />
+        }
+    }
+</fieldset>
+@section scripts
+{
+    <link rel="stylesheet" href="/Content/codemirror/lib/codemirror.css">
+    <script src="/Content/codemirror/lib/codemirror.js"></script>
+    <script src="/Content/codemirror/mode/xml/xml.js"></script>
+    <script src="/Content/codemirror/mode/javascript/javascript.js"></script>
+    <script src="/Content/codemirror/mode/css/css.js"></script>
+    <script src="/Content/codemirror/mode/htmlmixed/htmlmixed.js"></script>
+
+    <script src="/Content/codemirror-ui-master/js/codemirror-ui.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="/Content/codemirror-ui-master/css/codemirror-ui.css" type="text/css" media="screen" />
+
+    <script type="text/javascript">
+        $().ready(function () {
+            var baseLink = '@(Url.Action("Template"))';
+            $('#Template').change(function () {
+                document.location.href = baseLink + '?id=' + $('#Template').val();
+            });
+
+            var uiOptions = { path: '/Content/codemirror-ui-master/js/', searchMode: 'popup', imagePath: '/Content/codemirror-ui-master/images/silk', buttons: ['undo', 'redo', 'jump', 'reindentSelection', 'reindent'] };
+            var codeMirrorOptions = {
+                lineNumbers: true,
+                matchBrackets: true,
+                mode: 'htmlmixed',
+                indentUnit: 4
+            };
+
+            var codeMirror = new CodeMirrorUI(document.getElementById('FileContent'), uiOptions, codeMirrorOptions);
+            codeMirror.setSize(900, 500);
+
+        });
+    </script>
+}

@@ -1,0 +1,38 @@
+﻿@model IEnumerable<CMSPage>
+<div class="nav-bar">
+    <nav class="primary">
+        <ul>
+            @foreach (var page in Model)
+            {
+                <li>@if (page.IsCurrent)
+                    {
+                    <div>@page.PageName</div>
+                    }
+                    else
+                    {
+                    <a href="@page.FullUrl">@page.PageName</a>
+                    }
+                </li>    
+            }
+        </ul>
+    </nav>
+
+    <div class="profile-name">
+        @if (!HttpContext.Current.User.Identity.IsAuthenticated)
+        {
+            <a href="#" data-fancybox="#enter">Личный кабинет</a>
+            if (!AccessHelper.CurrentPageInfo.CurrentPage.HasView("AuthBtns") && !AccessHelper.IsMainPage)
+            {
+
+                <div style="display: none">
+                    @Html.Partial("AuthBtns")
+                </div>
+            }
+        }
+        else
+        {
+            <a  href="@AccessHelper.CurrentUserProfile.EditProfilePage">@Membership.GetUser().GetProfile().FullName</a>
+        }
+    </div>
+
+</div>

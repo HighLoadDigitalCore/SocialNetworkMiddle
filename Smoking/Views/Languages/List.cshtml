@@ -1,0 +1,11 @@
+﻿@model IEnumerable<Language>     
+
+@foreach (var lang in Model)
+{
+    <tr>
+        <td>@Html.ActionLink(lang.Name, "Edit", "Languages", new { id = lang.ID }, null)</td>
+        <td>@lang.ShortName</td>
+        <td>@Html.TextBox("Ordernum_" + lang.ID, lang.Ordernum, new { box = "orderbox", target = "Languages", action = "changeOrder", arg = lang.ID, page="0", oldval = lang.Ordernum, style="width:40px" })</td>
+        <td>@Html.ActionLink("удалить", "Delete", "Languages", new { id = lang.ID }, null)</td>
+    </tr>
+}

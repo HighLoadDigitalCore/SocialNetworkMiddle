@@ -1,0 +1,102 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+
+    @Styles.Render("~/Content/themes/base/css", "~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    <table class="master-tbl">
+        <tr>
+            <td class="left-master-tbl">
+@*
+                <div class="backref">
+                    Язык заполнения:&nbsp;
+                    @Html.DropDownList("MasterLang", AccessHelper.CurrentLang.LanguageList)
+                    @Html.Hidden("MasterLangURL", string.Join("/", Request.RawUrl.Split<string>("/").Skip(2)))
+                </div>
+                <hr />
+*@
+                <div class="backref">
+                    <ul>
+                        <li>
+                            @Html.ActionLink("Управление разделами", "Index", "Pages")
+                            
+                        </li>
+                        <li>
+                            @Html.ActionLink("Шаблоны разделов", "ViewManager", "TableEditors")
+                        </li>
+                        <li>
+                            @Html.ActionLink("Пользователи сайта", "Index", "Users")
+                            <ul>
+                                <li>
+                                    @Html.ActionLink("Типы пользователей", "Index", "Roles")
+                                </li>
+                                <li>
+                                    @Html.ActionLink("Настройка доступа к разделам", "AccessEditor", "Roles")
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            @Html.ActionLink("Текстовые блоки", "TextEditor", "TableEditors")
+                        </li>
+                        <li>
+                            @Html.ActionLink("Слайдеры", "Slider", "TableEditors")
+                        </li>
+                        <li>
+                            @Html.ActionLink("Список городов", "MapSelect", "TableEditors")
+                        </li>
+                        <li>
+                            @Html.ActionLink("Новости и события", "LentaEditor", "TableEditors")
+                        </li>
+                        <li>
+                            @Html.ActionLink("Комментарии", "CommentEditor", "TableEditors")
+                        </li>
+                        <li>
+                            @Html.ActionLink("Объекты и зоны", "ObjectEditor", "TableEditors")
+                        </li>
+
+@*
+                        <li>
+                            @Html.ActionLink("Языки сайта", "Index", "Languages")
+                        </li>
+*@
+
+
+
+                        <li>@Html.ActionLink("Типы объектов на карте", "MapObjectTypesEditor", "TableEditors")</li>
+                        <li>@Html.ActionLink("Почтовые расылки", "Index", "Mailing")</li>
+                        @*<li>@Html.ActionLink("Перевод статичного текста", "Index", "Dictionary")</li>*@
+                        <li>@Html.ActionLink("Редактирование шаблонов", "Template", "TemplateEditor")
+                            <ul>
+                                <li>
+                                    @Html.ActionLink("Шаблоны сайта", "Template", "TemplateEditor")
+                                </li>
+                                <li>
+                                    @Html.ActionLink("Функциональные блоки", "Block", "TemplateEditor")
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li>@Html.ActionLink("Настройки системы", "Index", "Settings")</li>
+                        <li>@Html.ActionLink("Выход", "LogOff", "Account")</li>
+                    </ul>
+                </div>
+            </td>
+            <td style="padding: 0 20px; vertical-align: top;">
+                @RenderBody()
+            </td>
+        </tr>
+    </table>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/tree")
+    @Scripts.Render("~/bundles/jqueryui")
+    @Scripts.Render("~/bundles/unobtrusive")
+    @Scripts.Render("~/bundles/ajax")
+    @RenderSection("scripts", required: false)
+    @Scripts.Render("~/bundles/master")
+</body>
+</html>

@@ -1,0 +1,41 @@
+﻿@model AuthModel
+
+    @using (Ajax.BeginForm("SimpleRegister", new AjaxOptions() { HttpMethod = "POST", InsertionMode = InsertionMode.Replace, UpdateTargetId = "SimpleRegister" }))
+    {
+        <input type="hidden" value="@AccessHelper.CurrentPageInfo.CurrentPage.ID" name="PageURL" />
+        <div class="form form-login form-reg">
+            @if (Model.ErrorText.IsFilled())
+            {
+                <dl class="error">
+                    <dd>
+                        @Model.ErrorText
+                    </dd>
+                </dl>
+            }
+            <dl>
+                <dd>
+                    <input type="text" data-placeholder="Адрес вашей электронной почты" name="Email" />
+                </dd>
+            </dl>
+            <dl>
+                <dd>
+                    <input type="password" data-placeholder="Пароль" name="Password" />
+
+                    <div class="_info">
+                        <p class="text-style3">
+                            Регистрируясь на сайте, вы принимаете условия <a target="_blank" href="/agreement">соглашения</a> и
+                            <a target="_blank" href="/oferta">договора оферты</a> и подтверждаете, что вы достигли возраста 18 лет согласно закону 452 ч. 4 от 10.10.2087
+                        </p>
+                        <a href="#" onclick="return submitForm('#SimpleRegister');" class="btn -blue -submit">Зарегистрироваться</a>
+                    </div>
+                </dd>
+            </dl>
+        </div>
+            if (Model.NeedRedirect)
+            {
+        <script type="text/javascript">
+            document.location.href = '@(Model.RedirectURL)';
+        </script>
+            }
+    }
+

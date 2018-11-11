@@ -1,0 +1,27 @@
+﻿@model IEnumerable<CMSPage>
+<nav class="secondary">
+    <ul>
+        @foreach (var page in Model)
+        {
+            var isMyProfile = (Request.QueryString["uid"].ToGuid() ?? AccessHelper.CurrentUserKey) == AccessHelper.CurrentUserKey;
+            var onlyForMy = new string[] {"profile", "mymessages"};
+            var uidParam = Request.QueryString["uid"].IsFilled() ? ("?uid=" + Request.QueryString["uid"]) : "";
+            var pageNotAllowed = onlyForMy.Contains(page.URL) && !isMyProfile;
+            
+            if (pageNotAllowed)
+            {
+                continue;
+            }
+            
+            <li>@if (page.IsCurrent)
+                {
+                <div>@page.PageName</div>
+                }
+                else
+                {
+                <a href="@page.FullUrl@uidParam">@page.PageName</a>
+                }
+            </li>    
+        }
+    </ul>
+</nav>

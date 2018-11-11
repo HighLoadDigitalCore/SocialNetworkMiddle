@@ -1,0 +1,56 @@
+﻿@{
+    ViewBag.Title = "Управление пользователями";
+    Layout = "~/Views/Shared/_Master.cshtml";
+}
+@model PagedData<User>
+<h2>Список пользователей сайта</h2>
+
+@using (Html.BeginForm())
+{
+    <fieldset>
+        <table style="width: 100%">
+            <tr>
+                <td><b>Выберите роль:</b></td>
+                <td>@Html.DropDownList("role", ViewBag.Roles as SelectList)</td>
+            </tr>
+            <tr>
+                <td><b>EMail, Фамилия, Имя (или их часть):</b></td>
+                <td>@Html.TextBox("query")</td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <input type="submit" value="Найти" />
+                </td>
+            </tr>
+        </table>
+    </fieldset>
+}
+
+<br />
+<br />
+<div class="backref">
+    @Html.ActionLinkQuery("Создать пользователя", "Edit", "Users", new[] { "role", "page", "query" }, new { user = new Guid() })
+</div>
+<fieldset>
+    <table class="grid" style="width: 100%">
+        <tr>
+            <th>ФИО</th>
+            <th>Логин</th>
+            <th>EMail</th>
+@*            <th></th>*@
+            <th></th>
+        </tr>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>@Html.ActionLinkQuery(user.Profile.FullName, "Edit", "Users", new[] { "role", "page", "query" }, new { user = user.UserId })</td>
+                <td>@user.UserName</td>
+                <td>@user.Profile.Email</td>
+                @*<td>@Html.ActionLinkQuery("баланс", "Transactions", "Users", new[] { "role", "page", "query" }, new { user = user.UserId })</td>*@
+                <td>@Html.ActionLinkQuery("удалить", "Delete", "Users", new[] { "role", "page", "query" }, new { user = user.UserId })</td>
+            </tr>
+        }
+    </table>
+    <br />
+    @Html.Raw(Model.PagerMenu(Html))
+</fieldset>

@@ -1,0 +1,29 @@
+﻿@model IEnumerable<CMSPageSlider>
+@if (Model != null && Model.Any())
+{
+
+    <div class="carousel">
+        <i class="icon-prev"></i>
+        <div class="items">
+            <ul>
+                @foreach (var item in Model)
+                {
+                    <li>
+                        <img src="@UniversalEditorPagedData.GetImageWrapper("CMSPageSliders", "ID", item.ID.ToString(), "Img")" />
+                        <p>
+                            @{ var splitted = new SplittedText(item.Text);}
+                            @Html.Raw(splitted.First)
+                            @if (splitted.HasControl)
+                        {
+                                @Html.Action("MapSelect", "CommonBlocks")
+                                @Html.Raw(splitted.Last)    
+                        }
+                        </p>
+                    </li>
+                    
+                }
+            </ul>
+        </div>
+        <i class="icon-next"></i>
+    </div>
+}

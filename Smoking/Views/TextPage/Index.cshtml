@@ -1,0 +1,8 @@
+﻿@model IEnumerable<CMSPageTextData>
+
+@foreach(var block in Model)
+{
+    <div class="text-content" uid="@block.ID">
+        @Html.Raw(block.Text)
+    </div>
+}

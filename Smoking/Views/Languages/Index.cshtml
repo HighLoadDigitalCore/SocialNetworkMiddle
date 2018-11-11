@@ -1,0 +1,23 @@
+﻿@{
+    ViewBag.Title = "Языки сайта";
+    Layout = "~/Views/Shared/_Master.cshtml";
+}
+@model IEnumerable<Language>
+
+<h2>Языки сайта</h2>
+<div class="backref">
+    @Html.ActionLink("Добавить язык", "Edit", "Languages")
+</div>
+
+<fieldset>
+    <table class="grid" style="width: 100%">
+        <tr>
+            <th>Название</th>
+            <th>Псевдоним</th>
+            <th>Порядковый номер</th>
+            <th></th>
+        </tr>
+        @Html.Partial("List", Model)
+    </table>
+    <br />
+</fieldset>

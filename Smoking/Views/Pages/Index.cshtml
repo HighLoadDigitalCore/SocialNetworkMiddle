@@ -1,0 +1,149 @@
+﻿@using Smoking.Extensions
+@model PagedData<CMSPage>
+@{
+    ViewBag.Title = "Управление разделами сайта";
+    Layout = "~/Views/Shared/_Master.cshtml";
+}
+<h2>
+    Список разделов сайта</h2>
+<br/>
+Перетаскивайте разделы мышкой для изменения структуры
+<br />
+<br />
+<div id="tree">
+</div>
+<br />
+
+<div class="backref">
+    @Html.ActionLink("Добавить раздел", "Edit", "Pages")
+</div>
+@section scripts
+{
+    <script type="text/javascript" src="/Scripts/jquery.jstree.js"></script>
+    <script type="text/javascript" src="/Scripts/jquery.cookie.js"></script>
+    <script type="text/javascript" src="/Scripts/jquery.json-2.3.min.js"></script>
+    @*<link rel="stylesheet" type="text/css" href="/Content/themes/default-rtl/style.css"/>*@
+    <script type="text/javascript">
+        var dataLink = '@Url.Action("getTreeData", "Pages")';
+        var editLink = '@Url.Action("Edit", "Pages")';
+        var deleteLink = '@Url.Action("Delete", "Pages")';
+        var saveNode = '@Url.Action("saveNode", "Pages")';
+        $(document).ready(function () {
+            loadTree();
+
+        });
+
+        function loadTree() {
+            $.getJSON(dataLink, {}, function (res) {
+
+
+                $('#tree').jstree({
+                    "plugins": [
+                        "themes", "json_data", "ui", "crrm", "cookies", "dnd", "search", "types"
+                    ],
+
+                    "themes": {
+                        "theme": "apple",
+                        "url": "/Content/themes/apple/style.css"
+                    },
+                    "crrm": {
+                        "move": {
+                            "default_position": "first",
+                            "check_move": function (m) {
+                                return m.o[0].id == "x0" || (m.r[0].id == "x0" && (m.p == "before" || m.p == "after")) ? false : true;
+                            }
+                        }
+                    },
+                    "json_data": { "data": res, "progressive_render": true }
+                }).bind("select_node.jstree", function (e, data) {
+                    $('#tree li .btns').each(function () {
+                        if ($(this).parents('li').attr('id') != data.rslt.obj.attr('id'))
+                            $(this).css('display', 'none');
+                    });
+
+                }).bind("move_node.jstree", function (event, data) {
+
+                    var node = data.rslt.o.attr("uid");
+                    var target = data.rslt.r.attr("uid");
+                    var rel = data.rslt.p;
+                    /*
+                    var console = window['console'];
+                    if (console && console.log) {
+                    console.log(node);
+                    console.log(target);
+                    console.log(rel);
+
+                    }
+                    */
+                    $.post(saveNode, { nodeID: node, targetID: target, type: rel }, function (data) {
+                        //$('#tree').html('');
+                        loadTree();
+                    });
+
+
+                }).bind("loaded.jstree", function (event, data) {
+                    //$('#tree').jstree('open_all');
+                    $('#tree li a[href="#"]').each(function () {
+                        var content = $('<span class="btns"></span>');
+                        if ($(this).parents('li').attr('uid') != '0')
+                            content.append('<a href="/" title="Удалить раздел" class="delpage"></a>');
+                        content.append('<a href="/" title="Добавить подраздел" class="addpage"></a>');
+                        if ($(this).parents('li').attr('uid') != '0')
+                            content.append('<a href="/" title="Редактировать раздел" class="editpage"></a>');
+
+                        $(this).append(content);
+
+                        $(this).mouseover(function () {
+                            $(this).parent().find('.btns:first').css('display', 'inline-block');
+                        }).mouseout(function () {
+                            $(this).parent().find('.btns').each(function () {
+                                if (!$(this).parent().hasClass('jstree-clicked'))
+                                    $(this).css('display', 'none');
+                            });
+                        });
+                    });
+                    $('.addpage').click(function () {
+                        document.location.href = editLink + "?ParentID=" + $(this).parents('li').attr('uid');
+                    });
+                    $('.editpage').click(function () {
+                        document.location.href = editLink + "?ID=" + $(this).parents('li').attr('uid');
+                    });
+                    $('.delpage').click(function () {
+                        document.location.href = deleteLink + "?ID=" + $(this).parents('li').attr('uid');
+                    });
+                }).bind("open_node.jstree", function (e, data) {
+                    $(data.rslt.obj).find('li a[href="#"]').each(function () {
+                        var content = $('<span class="btns"></span>');
+                        if ($(this).parents('li').attr('uid') != '0')
+                            content.append('<a href="/" title="Удалить раздел" class="delpage"></a>');
+                        content.append('<a href="/" title="Добавить подраздел" class="addpage"></a>');
+                        if ($(this).parents('li').attr('uid') != '0')
+                            content.append('<a href="/" title="Редактировать раздел" class="editpage"></a>');
+                        $(this).append(content);
+                        $(this).mouseover(function () {
+                            $(this).parent().find('.btns:first').css('display', 'inline-block');
+                        }).mouseout(function () {
+                            $(this).parent().find('.btns').each(function () {
+                                if (!$(this).parent().hasClass('jstree-clicked'))
+                                    $(this).css('display', 'none');
+                            });
+                        });
+
+                        var cell = $(this).parent();
+                        cell.find('.addpage').click(function () {
+                            document.location.href = editLink + "?ParentID=" + $(this).parents('li').attr('uid');
+                        });
+                        cell.find('.editpage').click(function () {
+                            document.location.href = editLink + "/" + $(this).parents('li').attr('uid');
+                        });
+                        cell.find('.delpage').click(function () {
+                            document.location.href = deleteLink + "/" + $(this).parents('li').attr('uid');
+                        });
+                    });
+                }); 
+
+
+            });
+        }
+    </script>
+}

@@ -1,0 +1,115 @@
+﻿@using System.Collections
+@model UniversalEditorPagedData
+
+
+<div id="UF">
+    @Html.ValidationSummary(true)
+    <fieldset>
+        @if (Model.IsAddingNew)
+        {
+            <h4>Добавление новой записи</h4>
+        }
+        else
+        {
+            <h4>Редактирование записи "@(Model.EditedRow.GetPropertyValue(Model.Settings.ShowedFieldsInList.First(x => x.IsLinkToEdit).FieldName).ToString().ClearHTML().TruncateToPoint(100))"</h4>
+        }
+        @using (Ajax.BeginForm("UniversalEdit", "UniversalEditor", Model.JoinRoutes(new { Type = "Edit", BackOverride = Request["BackOverride"], Page = Model.Page, UID = Model.EditedRow.GetPropertyValue(Model.Settings.UIDColumnName) }), new AjaxOptions() { HttpMethod = "POST", InsertionMode = InsertionMode.Replace, UpdateTargetId = "UF", OnComplete = "ajaxComplete()" }))
+        {
+            
+            @Html.HiddenFor(model => model.CallerAction)
+            @Html.HiddenFor(model => model.CallerController)
+            @Html.HiddenFor(model => model.AddQueryParamsJoin)
+            foreach (var field in Model.Settings.EditedFieldsList)
+            {
+            <div class="editor-label" @(field.Hidden ? "style=display:none" : "")>
+                @Html.Label(field.HeaderText, new { @for = field.FieldName }):
+            </div>
+            <div class="editor-field"@(field.Hidden ? "style=display:none" : "")>
+                @if (field.FieldType == UniversalEditorFieldType.TextBox)
+                {
+                    @Html.TextBox(field.FieldName, Model.EditedRow.GetPropertyValue(field.FieldName), new { inactive = field.ReadOnly ? "1" : "0" })
+                }
+                else if (field.FieldType == UniversalEditorFieldType.TextArea)
+                {
+                    @Html.TextArea(field.FieldName, (string)Model.EditedRow.GetPropertyValue(field.FieldName), new { inactive = field.ReadOnly ? "1" : "0" })
+                }
+                else if (field.FieldType == UniversalEditorFieldType.CheckBox)
+                {
+                    @Html.CheckBox(field.FieldName, (bool)Model.EditedRow.GetPropertyValue(field.FieldName), new { inactive = field.ReadOnly ? "1" : "0" })
+                }
+                else if (field.FieldType == UniversalEditorFieldType.DropDown && field.InnerListDataSource != null)
+                {
+                    if (field.InnerListDataSource.TextFunction != null)
+                    {
+                        foreach (var obj in (IEnumerable)field.InnerListDataSource.Source)
+                        {
+                            obj.SetPropertyValue(field.InnerListDataSource.ValueField, field.InnerListDataSource.TextFunction(obj.GetPropertyValue(field.InnerListDataSource.ValueField)));
+                        }
+                    }
+                    
+                    if (field.InnerListDataSource.HasEmptyDef)
+                    {
+                    @Html.DropDownList(field.FieldName, new SelectList((IEnumerable)field.InnerListDataSource.Source, field.InnerListDataSource.KeyField, field.InnerListDataSource.ValueField, field.InnerListDataSource.CalculatedDef(field.FieldName, Model)), "", new { inactive = field.ReadOnly ? "1" : "0" })
+                    }
+                    else
+                    {
+                    @Html.DropDownList(field.FieldName, new SelectList((IEnumerable)field.InnerListDataSource.Source, field.InnerListDataSource.KeyField, field.InnerListDataSource.ValueField, field.InnerListDataSource.CalculatedDef(field.FieldName, Model)), new { inactive = field.ReadOnly ? "1" : "0" })
+                    }
+                }
+                else if (field.FieldType == UniversalEditorFieldType.Calendar)
+                {
+                    @Html.TextBox(field.FieldName, Model.EditedRow.GetPropertyValue(field.FieldName).ToTypedValue<DateTime?>().HasValue && Model.EditedRow.GetPropertyValue(field.FieldName).ToTypedValue<DateTime?>().Value != DateTime.MinValue ? Model.EditedRow.GetPropertyValue(field.FieldName).ToTypedValue<DateTime?>().Value.ToString("dd.MM.yyyy HH:mm:ss") : "", new { rel = "calendar", inactive = field.ReadOnly ? "1" : "0" })
+                }
+                else if (field.FieldType == UniversalEditorFieldType.Label)
+                {
+                    <b>
+                        @Html.Raw(field.CheckedText(Model.EditedRow.GetPropertyValue(field.FieldName)))
+                    </b>
+                }
+                else if (field.FieldType == UniversalEditorFieldType.DBImageUpload)
+                {
+                    @Html.TextBox(field.FieldName, "", new { @class = "db-img-upload", type = "file" })
+                    @Html.Hidden(field.FieldName + "_Path")
+                    <br />
+                    <div clear-handler="@Model.GetDeleteWrapper(field.FieldName)" id="@(field.FieldName)_Preview" style="display: @(Model.IsNullImage(field.FieldName) ? "none" : "block")">
+                        <img src="@Model.GetImageWrapper(field.FieldName)" style="max-width: 200px; max-height: 200px"/>
+                        <br />
+                        <a class="delete-img-btn" href="#">Удалить изображение</a>
+                        <br />
+                    </div>
+
+                }
+                else if (field.FieldType == UniversalEditorFieldType.TextEditor)
+                {
+                    @Html.TextArea(field.FieldName, (Model.EditedRow.GetPropertyValue(field.FieldName) ?? "").ToString(), new { @class = "text-editor" })
+                }
+            </div>
+            }
+            <br />
+            <input type="submit" value="Сохранить данные" />
+        }
+        @Html.Hidden("RedirectURL", Model.RedirectURL)
+    </fieldset>
+
+
+    @if (Model.Settings.EditedFieldsList.Any(x => x.FieldType == UniversalEditorFieldType.TextEditor))
+    {
+        <script type="text/javascript" src="/Content/ckeditor/ckeditor.js"></script>
+    }
+
+    @if (Model.AddView != null && Model.AddView.InEditor)
+    {
+        @Html.Action(Model.AddView.Action, Model.AddView.Controller, Model.AddView.Routes)
+    }
+
+    <div class="backref">
+        @if (Request["BackOverride"] != null)
+        {
+            <a href="@HttpUtility.UrlDecode(Request["BackOverride"])">Назад к списку</a>
+        }
+        else
+        {
+            @Html.ActionLinkQuery("Назад к списку", Model.CallerAction, Model.CallerController, Model.FilterParams, new { Page = Model.Page }, null)
+        }
+    </div>
+</div>

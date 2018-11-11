@@ -1,0 +1,26 @@
+﻿@model UniversalEditorPagedData
+<div id="UF">
+    @Html.ValidationSummary(true)
+    <fieldset>
+        <h4>Удаление записи "@(Model.EditedRow.GetPropertyValue(Model.Settings.ShowedFieldsInList.First(x => x.IsLinkToEdit).FieldName).ToString().ClearHTML().TruncateToPoint(100))"</h4>
+        @using (Ajax.BeginForm("UniversalDelete", "UniversalEditor", new { Type = "Delete", Page = Model.Page, UID = Model.EditedRow.GetPropertyValue(Model.Settings.UIDColumnName) }, new AjaxOptions() { HttpMethod = "POST", InsertionMode = InsertionMode.Replace, UpdateTargetId = "UF", OnComplete = "setRedirect()" }))
+        {
+            @Html.HiddenFor(model => model.CallerAction)
+            @Html.HiddenFor(model => model.CallerController)
+            @Html.HiddenFor(model => model.AddQueryParamsJoin)
+            
+            <div class="editor-label">
+                Вы уверены, что хотите удалить безвозвратно эту запись и все связанные с ней данные?
+            </div>
+            <div class="editor-field">
+            </div>
+            
+            <br />
+            <input type="submit" value="Удалить" />
+        }
+        @Html.Hidden("RedirectURL", Model.RedirectURL)
+    </fieldset>
+    <div class="backref">
+        @Html.ActionLinkQuery("Назад к списку", Model.CallerAction, Model.CallerController, Model.FilterParams, new { Page = Model.Page }, null)
+    </div>
+</div>

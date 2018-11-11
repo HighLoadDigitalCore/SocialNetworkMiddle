@@ -1,0 +1,73 @@
+﻿@model Language
+@{
+    ViewBag.Title = "Редактирование языка сайта";
+    Layout = "~/Views/Shared/_Master.cshtml";
+}
+
+<h2>@(Model.Name.IsNullOrEmpty() ? "Добавление языка сайта" : "Редактирование языка сайта")</h2>
+
+
+@using (Html.BeginForm("Edit", "Languages", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{    
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Name)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Name)
+            @Html.ValidationMessageFor(model => model.Name)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ShortName)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.ShortName)
+            @Html.ValidationMessageFor(model => model.ShortName)
+        </div>
+
+        @Html.HiddenFor(model => model.ID)
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Enabled)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Enabled)
+            @Html.ValidationMessageFor(model => model.Enabled)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ByDef)
+        </div>
+        <div class="editor-field">
+            @Html.CheckBoxFor(model => model.ByDef, new {inactive = Model.ByDef?"1":"0"})
+            @Html.ValidationMessageFor(model => model.ByDef)
+        </div>
+
+        <div class="editor-label">
+            <label for="Icon">Флаг страны</label>
+        </div>
+        <div class="editor-field">
+            <input type="file" id="Icon" name="Icon" />
+        </div>
+        @if (Model.Icon != null)
+        {
+            <img src="@Model.Image"/>
+        }
+
+        <p>
+            <input type="submit" value="Сохранить" />
+        </p>
+    </fieldset>
+}
+
+<div class="backref">
+    @Html.ActionLink("Назад к списку", "Index", "Languages")
+</div>
+@section scripts
+{
+    @Scripts.Render("~/bundles/unobtrusive")
+}

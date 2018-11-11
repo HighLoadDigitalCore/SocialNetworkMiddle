@@ -1,0 +1,31 @@
+﻿@{
+    ViewBag.Title = "Настройка доступа к разделам";
+    Layout = "~/Views/Shared/_Master.cshtml";
+}
+
+<h2>Настройка доступа к разделам</h2>
+<fieldset>
+    @using (Html.BeginForm())
+    {
+        @Html.DropDownList("RoleList", ViewBag.RoleSelectList as SelectList)
+        <br />
+        <br />
+        @Html.ValidationSummary(true)
+        <div id="tree-filter"></div>
+        @Html.Hidden("PageListPlain", ViewBag.PageListPlain as string)
+        <br />
+        <input type="submit" value="Сохранить" />
+    }
+</fieldset>
+
+@section scripts
+{
+    <script type="text/javascript">
+        $().ready(function () {
+            var baseLink = '/Master/ru/Roles/AccessEditor';
+            $('#RoleList').change(function() {
+                document.location.href = baseLink + '?RoleID=' + $('#RoleList').val();
+            });
+        })
+    </script>
+}

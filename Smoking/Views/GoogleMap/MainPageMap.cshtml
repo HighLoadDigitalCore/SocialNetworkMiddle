@@ -1,0 +1,30 @@
+﻿@model MapModel
+@{
+    var filter = AccessHelper.MapFilter;
+}
+<div class="map">
+    @Html.Hidden("NewsLink", CMSPage.Get("news").FullUrl)
+    @foreach (var field in MapFilterData.ParamNamesToOut)
+    {
+        <input rel="autoprop" type="hidden" id="@field" name="@field" value="@filter.GetPropertyValue(field).ToJson()"/>
+    }
+
+    <div id="map"></div>
+    <div class="map-overlay"></div>
+    <div class="smoking-links">
+        <a href="/map#SmokingType=1">
+            <img src="/content/client/i/smoking-big.png" alt="Курю" /></a>
+        <a href="/map#SmokingType=0" href="/map">
+            <img src="/content/client/i/quitsmoking-big.png" alt="Бросаю" /></a>
+        <a href="/map#SmokingType=-1" href="/map">
+            <img src="/content/client/i/notsmoking-big.png" alt="Не курю" /></a>
+    </div>
+
+    <div class="btn_gomap">
+        <a href="@(CMSPage.Get("map").FullUrl)" class="btn -dblue -huge -shaded">Перейти к карте</a>
+    </div>
+
+    <div class="btn_slide">
+        <i class="icon-slidedown"></i>
+    </div>
+</div>

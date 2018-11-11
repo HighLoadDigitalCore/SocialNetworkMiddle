@@ -1,0 +1,39 @@
+﻿@model AuthModel
+@*<div id="SimpleLogin">*@
+    @using (Ajax.BeginForm("SimpleLogin", new AjaxOptions() { HttpMethod = "POST", InsertionMode = InsertionMode.Replace, UpdateTargetId = "SimpleLogin" }))
+    {
+        <input type="hidden" value="@AccessHelper.CurrentPageInfo.CurrentPage.ID" name="PageURL" />
+        <div class="form form-login form-auth">
+            <dl>
+                <dd>
+                    <input name="Email" type="text" data-placeholder="Адрес вашей электронной почты" value="@Model.Email" />
+                </dd>
+            </dl>
+            <dl>
+                <dd>
+                    <input name="Password" type="password" data-placeholder="Пароль" value="@Model.Password" />
+                    <a href="#" onclick="return changeFormTo('.form-remember', '.form-auth');" class="text-style2">Забыли пароль?</a>
+                </dd>
+            </dl>
+            @if (Model.ErrorText.IsFilled())
+            {
+                <dl class="error">
+                    <dd>
+                        @Model.ErrorText
+                    </dd>
+                </dl>
+            }
+            <dl>
+                <dd>
+                    <div style="width: 400px; text-align: right"><a class="btn -green -submit" href="#" onclick="return submitForm('#SimpleLogin');" style="width: 150px;">Войти</a></div>
+                </dd>
+            </dl>
+        </div>
+        if (Model.NeedRedirect)
+        {
+            <script type="text/javascript">
+                document.location.href = '@(Model.RedirectURL)';
+            </script>
+        }
+    }
+@*</div>*@

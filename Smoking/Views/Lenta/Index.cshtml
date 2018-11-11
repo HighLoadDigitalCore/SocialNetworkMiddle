@@ -1,0 +1,70 @@
+﻿@model LentaViewModel
+
+@if (Model.IsFullText)
+{
+    <div id="CommentBlock">
+
+        <div class="news-content">
+            <div class="news-content1">
+                <h3>@Html.Raw(Model.SelectedEvent.HeaderText.ClearHTML())</h3>
+                <div class="cl">
+                    <div class="share42init"></div>
+                    <script type="text/javascript" src="/content/client/js/share42/share42.js"></script>
+                    <div class="stream stream-inner">
+                        <div class="infopanel">
+                            <div class="col">
+                                <a title="Добавить в избранное" class="@(Model.SelectedEvent.UserFavoriteLentas.Any(z => z.UserID == (Request.QueryString["uid"].ToGuid() ?? AccessHelper.CurrentUserKey)) ? "-active" : "")" href="#" arg="@Model.SelectedEvent.ID"><i class="icon-star"></i>&nbsp;<span title="Добавлено в избранное">@Model.SelectedEvent.UserFavoriteLentas.Count</span></a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <p>
+                    @Html.Raw(Model.SelectedEvent.FullText)
+                </p>
+            </div>
+            <h4 id="comments">КОММЕНТАРИИ</h4>
+
+            @using (Ajax.BeginForm("Index", new { newsId = Model.SelectedEvent.ID, category = Model.SelectedCategory }, new AjaxOptions() { HttpMethod = "POST", InsertionMode = InsertionMode.Replace, UpdateTargetId = "CommentBlock" }))
+            {
+                <div class="comments1">
+
+                    @if (Model.SelectedEvent.LentaComments.Any())
+                    {
+                        @Html.Partial("CommentList", Model.SelectedEvent.LentaComments.Select(x => x.Comment).Where(x => !x.ParentCommentID.HasValue).OrderBy(x => x.Date).ToList())
+                    }
+                    else
+                    {
+                        <div class="comments-list">
+                            <dl>
+                                <dd>
+                                    <p>Комментариев пока нет</p>
+                                </dd>
+                            </dl>
+
+                        </div>
+                    }
+                    <div class="send-message1">
+                        @Html.Partial("SendComment")
+                    </div>
+                </div>
+            }
+
+        </div>
+    </div>
+
+}
+else
+{
+    <div class="stream">
+        @foreach (var group in Model.Lenta)
+        {
+            <div class="@group.Key.CSS">
+                @foreach (var block in group.OrderByDescending(x => x.CreateDate))
+                {
+                    @Html.Partial("LentaBlock", block);
+                }
+            </div>
+        }
+    </div>
+}

@@ -1,0 +1,30 @@
+﻿@{
+    ViewBag.Title = "Редактирование названий";
+    Layout = "~/Views/Shared/_Master.cshtml";
+}
+@model PagedData<LabelDictionary>
+<h2>Редактирование названий</h2>
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true)
+    <fieldset>
+        <table class="grid odd-grid" style="width: 100%">
+            <tr>
+                <th>Ключ</th>
+                <th>Перевод</th>
+            </tr>
+            @foreach (var data in Model)
+            {
+                <tr>
+                    <td style="font-weight: bold">@Html.Label("Text_" + data.ID, data.TextKey)</td>
+                    <td>@Html.TextBox("Text_" + data.ID, (data.LabelDictionaryLangs.FirstOrDefault(x => x.LanguageID == AccessHelper.CurrentLang.ID) ?? new LabelDictionaryLang()).TranslatedLabel)</td>
+                </tr>
+            }
+        </table>
+        <br />
+        <input type="submit" value="Сохранить значения" />
+        <br />
+        <br />
+        @Model.PagerMenu(Html)
+    </fieldset>
+}

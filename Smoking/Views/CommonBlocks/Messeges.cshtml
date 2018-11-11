@@ -1,0 +1,62 @@
+﻿@model IEnumerable<UserMessage>
+@{ var authors = ViewBag.Authors as IEnumerable<User>;}
+<div id="CommentBlock">
+    @if (AccessHelper.IsAuth)
+    {
+    
+        <div class="messages">
+            <div class="col1">
+                <h2>Диалоги</h2>
+
+                <ul class="dialogues">
+                    @foreach (var author in authors)
+                    {
+                        <li>
+                            <p class="name @(ViewBag.Target == author.UserId ? "active":"")"><a href="@AccessHelper.CurrentPageInfo.CurrentPage.FullUrl?author=@author.UserId">@author.Profile.FullName</a></p>
+                            <p class="timestamp">@Html.Raw(author.OutcomingMessages.Where(x => x.UserID == AccessHelper.CurrentUserKey).Concat(author.IncomingMessages.Where(z => z.Sender == AccessHelper.CurrentUserKey)).Max(x => x.Date).ToString("d MMMM HH:mm"))</p>
+                        </li>
+
+                    }
+                </ul>
+            </div>
+            @if (Model.Any())
+            {
+                <div class="col2">
+                    <ul class="messages-list">
+                        @foreach (var message in Model)
+                        {
+                            <li>
+                                <div class="photo-med">
+                                    <img src="@message.Poster.Profile.GetAvatarLink(100)">
+                                </div>
+                                <p class="timestamp">@Html.Raw(message.Date.ToNiceDate())</p>
+                                <p class="name"><a href="@message.Poster.UserProfile.EditProfilePage">@message.Poster.Profile.FullName</a></p>
+                                <p>@Html.Raw(message.Message)</p>
+                            </li>
+
+                        }
+                    </ul>
+
+                    @using (Ajax.BeginForm("Messeges", new { UID = ViewBag.Target, Sender = AccessHelper.CurrentUserKey }, new AjaxOptions() { HttpMethod = "POST", InsertionMode = InsertionMode.Replace, UpdateTargetId = "CommentBlock" }))
+                    {
+                        <div class="send-message">
+                            <div class="photo-med">
+                                <img src="@AccessHelper.CurrentUserProfile.GetAvatarLink(100)">
+                            </div>
+                            <textarea name="Message" id="Message"></textarea>
+                            <a onclick="return submitForm('#CommentBlock');" class="btn -green -submit" href="#">Отправить</a>
+                        </div>
+                        <div class="error-list">
+                            @Html.ValidationSummary(true)
+                        </div>
+                    }
+
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <h4>Для просмотра сообщений необходимо авторизоваться на сайте</h4>
+    }
+</div>

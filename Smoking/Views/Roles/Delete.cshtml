@@ -1,0 +1,27 @@
+﻿@model Role
+@{
+    ViewBag.Title = "Удаление типа пользователей";
+    Layout = "~/Views/Shared/_Master.cshtml";
+}
+@using (Html.BeginForm())
+{
+    <fieldset>
+
+        <h4>Вы уверены, что хотите удалить этот тип пользователей?</h4>
+        <div class="editor-field">
+            @Html.CheckBox("includeUsers", false)<label for="includeUsers">
+                Удалить всех пользователей
+                    данного типа</label>
+        </div>
+        <p>
+            <span style="color: orangered">Внимание! Удаление пользователей приведет также к удалению
+                всех связанных с ними данных </span>
+        </p>
+        <p>
+            <input type="submit" value="Удалить" />
+        </p>
+    </fieldset>
+}
+<div class="backref">
+    @Html.ActionLink("Назад к списку", "Index")
+</div>

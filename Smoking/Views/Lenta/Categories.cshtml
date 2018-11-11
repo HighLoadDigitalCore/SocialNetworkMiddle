@@ -1,0 +1,13 @@
+﻿@model IEnumerable<KeyValuePair<string, string>>
+<h5>Новости и события</h5>
+<div class="dropdown_style1">
+    <span class="dropdown -yellow -big">
+        <span>@ViewBag.SelectedCatName</span>
+        <span class="dropdown-list">
+            @foreach (var item in Model)
+            {
+                <a href="@item.Value">@item.Key</a>    
+            }
+        </span>
+    </span>
+</div>

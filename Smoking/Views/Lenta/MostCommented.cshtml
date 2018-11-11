@@ -1,0 +1,19 @@
+﻿@model LastAndPopularViewModel
+<h5>Самое обсуждаемое</h5>
+<div class="list1">
+    @foreach (var item in Model.Pop)
+    {
+        <dl>
+
+            @if (item.Image.IsFilled())
+            {
+                <dt>
+                    <img style="max-width: 75px;" src="@UniversalEditorPagedData.GetImageWrapper("Lenta", "ID", item.ID.ToString(), "Image")" />
+                </dt>
+            }
+
+            <dd><a href="@item.Href">@((item.HeaderText ?? item.Text ?? "").ClearHTML()) </a></dd>
+        </dl>
+        
+    }
+</div>

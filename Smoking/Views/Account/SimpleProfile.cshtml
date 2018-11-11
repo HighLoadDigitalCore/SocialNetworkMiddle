@@ -1,0 +1,87 @@
+﻿@model UserProfile
+@if (Model.UserID == AccessHelper.CurrentUserKey)
+{
+    <div id="SimpleProfile">
+
+        <h1>Персональные даные</h1>
+
+        @using (Ajax.BeginForm("SimpleProfile", new AjaxOptions() {HttpMethod = "POST", InsertionMode = InsertionMode.Replace, UpdateTargetId = "SimpleProfile", OnComplete = "forms();profileselect();"}))
+        {
+
+            @Html.HiddenFor(m => m.UserID)
+            <div class="form form-personal">
+                <dl>
+                    <dt>Имя</dt>
+                    <dd>
+                        @Html.TextBoxFor(m => m.Name)
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>Фамилия</dt>
+                    <dd>
+                        @Html.TextBoxFor(m => m.Surname)
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>Город</dt>
+                    <dd>
+                        @Html.TextBoxFor(m => m.Town)
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>Статус</dt>
+                    <dd>
+                        <div class="checkboxes radio profileselect">
+                            <label>
+                                <input type="radio" name="ST" arg="1" id="ZoneIsForSmoke">Курит</label>
+                            <label>
+                                <input type="radio" name="ST" arg="-1" id="ZoneIsNotForSmoke">Не курит</label>
+                            <label>
+                                <input type="radio" name="ST" arg="0" id="ZoneIsForStopping">Бросает</label>
+                        </div>
+                        @Html.HiddenFor(m => m.SmokingType)
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>Адрес электронной почты</dt>
+                    <dd>
+                        @Html.TextBoxFor(m => m.Email)
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>Пароль</dt>
+                    <dd>&nbsp; &nbsp; <a href="#" onclick=" $('#pass').toggle();return false; " class="text-style4">Изменить пароль</a></dd>
+                </dl>
+                <dl style="display: none" id="pass">
+                    <dt></dt>
+                    <dd>
+                        @Html.TextBoxFor(m => m.Password)
+                    </dd>
+                </dl>
+                <dl style="margin: 0">
+                    <dd>
+                        <div class="error-list big-err" style="padding-bottom: 10px">
+                            @Html.ValidationSummary(true)
+                        </div>
+
+                    </dd>
+                </dl>
+                <dl class="buttons">
+
+                    <dt></dt>
+                    <dd class="ar">
+                        <a class="btn -green -submit" href="#" onclick=" return submitForm('#SimpleProfile'); " style="width: 190px">Сохранить</a>
+                    </dd>
+                </dl>
+            </div>
+
+
+        }
+    </div>
+}
+else
+{
+    <div>
+        <h4>У вас нет прав доступа на редактирование этого раздела</h4>
+    </div>
+}

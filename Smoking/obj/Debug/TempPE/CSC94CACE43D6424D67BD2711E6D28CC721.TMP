@@ -1,0 +1,30 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Data.Linq;
+using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
+using System.Web;
+using System.Web.Mvc;
+using System.Web.Security;
+using Syndicate.Extensions;
+using Syndicate.Extensions.Helpers;
+using Syndicate.Models;
+
+namespace Syndicate.Controllers
+{
+    public class CabinetController : Controller
+    {
+
+        private static DataLoadOptions LoadOptions
+        {
+            get
+            {
+                var dlo = new DataLoadOptions();
+                dlo.LoadWith<GameBet>(x => x.Game);
+                dlo.LoadWith<GamePlan>(x => x.Game);
+                return dlo;
+            }
+        }
+
+        private DB 

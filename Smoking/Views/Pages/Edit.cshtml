@@ -1,0 +1,113 @@
+﻿@{
+    ViewBag.Title = "Редактирование или создание раздела";
+    Layout = "~/Views/Shared/_Master.cshtml";
+}
+@model CMSPage
+<h2>
+    @ViewBag.Header
+</h2>
+@using (Html.BeginForm("Edit", "Pages", new { id = Model.ID }, FormMethod.Post))
+{
+    @Html.ValidationSummary(true)
+    <fieldset>
+        @Html.HiddenFor(model => model.ID)
+        <b>Основные данные:</b>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ParentID)
+        </div>
+        <div class="editor-field">
+            @Html.DropDownListFor(model => model.ParentID, ViewBag.Parents as SelectList)
+            @Html.ValidationMessageFor(model => model.ParentID)
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Type)
+        </div>
+        <div class="editor-field">
+            @Html.DropDownListFor(model => model.Type, ViewBag.Types as SelectList)
+            @Html.ValidationMessageFor(model => model.Type)
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.PageName)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.PageName)
+            @Html.ValidationMessageFor(model => model.PageName)
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.FullName)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.FullName)
+            @Html.ValidationMessageFor(model => model.FullName)
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.URL)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.URL)
+            @Html.ValidationMessageFor(model => model.URL)
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Visible) @Html.EditorFor(model => model.Visible)
+        </div>
+        @Html.ValidationMessageFor(model => model.Visible)
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ViewMenu) @Html.EditorFor(model => model.ViewMenu)
+        </div>
+        @Html.ValidationMessageFor(model => model.ViewMenu)
+        <hr />
+        <b>Поисковая оптимизация:</b>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Title)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Title)
+            @Html.ValidationMessageFor(model => model.Title)
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Keywords)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Keywords)
+            @Html.ValidationMessageFor(model => model.Keywords)
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Description)
+        </div>
+        <div class="editor-field">
+            @Html.TextAreaFor(model => model.Description)
+            @Html.ValidationMessageFor(model => model.Description)
+        </div>
+        <hr/>
+        <b>Права доступа:</b>
+        <div class="cbxList">
+            @foreach (var role in Model.RolesList)
+            {
+                <div>
+                    @Html.CheckBox("ID_"+role.RoleID.ToString(), role.Selected)
+                    <label for="@("ID_"+role.RoleID.ToString())">@role.RoleName</label>
+                </div>
+            }
+        </div>
+        <br/>
+        <input type="submit" value="Сохранить изменения" />
+    </fieldset>
+}
+<div class="backref">
+    @Html.ActionLink("Назад к списку", "Index")
+</div>
+@section scripts
+{
+    <script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/translitter.js")" type="text/javascript"></script>
+    <script type="text/javascript">
+        $().ready(function () {
+            transliterate($('#PageName'), $('#URL'));
+            autofill($('#PageName'), $('#FullName'));
+            autofill($('#PageName'), $('#Title'));
+            autofill($('#PageName'), $('#Keywords'));
+            autofill($('#PageName'), $('#Description'));
+        });
+    </script>
+}

@@ -1,0 +1,7 @@
+﻿@{
+    ViewBag.Title = Model.EditorName;
+    Layout = "~/Views/Shared/_Master.cshtml";
+}
+@model UniversalEditorPagedData
+<h2>@Model.EditorName</h2>
+@Html.Partial("UniversalEditor", Model)

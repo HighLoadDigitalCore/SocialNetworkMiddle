@@ -1,0 +1,23 @@
+﻿<div id="enter" style="display: none">
+    <h2>Войти на сайт</h2>
+    <p class="text-style1">через любимую социальную сеть</p>
+    <div class="social-login1">
+    </div>
+    <h2>Войти, используя свой логин</h2>
+    <p class="text-style1">если вы уже зарегистрировались на нашем сайте</p>
+    <div id="SimpleLogin">
+        @Html.Action("SimpleLogin", "Account")
+    </div>
+    <div id="SimpleRestore">
+        @Html.Action("SimpleRestore", "Account")
+    </div>
+
+    <h2>Регистрируйтесь</h2>
+    <p class="text-style1">
+        если вы первый раз на сайте, регистрация даст<br>
+        вам полный доступ
+    </p>
+    <div id="SimpleRegister">
+        @Html.Action("SimpleRegister", "Account")
+    </div>
+</div>

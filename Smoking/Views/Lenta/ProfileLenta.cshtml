@@ -1,0 +1,13 @@
+﻿@model IEnumerable<IGrouping<int, KeyValuePair<int, Lenta>>>
+<div class="stream">
+    @foreach (var col in Model)
+    {
+        <div class="col">
+            @foreach (KeyValuePair<int, Lenta> block in col)
+            {
+                @Html.Partial("LentaBlock", block.Value);
+            }
+        </div>
+        
+    }
+</div>

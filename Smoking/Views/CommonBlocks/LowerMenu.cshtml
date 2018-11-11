@@ -1,0 +1,8 @@
+﻿@model IEnumerable<CMSPage>
+<nav class="footer">
+    @foreach (var page in Model)
+    {
+        <a href="@page.FullUrl">@page.PageNameTranslated</a>    
+    }
+</nav>
+

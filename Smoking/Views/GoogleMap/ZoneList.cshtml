@@ -1,0 +1,79 @@
+﻿@model IEnumerable<MapObject>
+@if (!(bool) ViewBag.IsObjectView)
+{
+    <div class="stream-markers">
+        @foreach (var marker in Model)
+        {
+            <dl class="list-block_type1">
+                <dt>
+                    <div class="photo-marker">
+                        <div>
+                            <a href="@marker.CommentPageLink">
+                                <img src="@marker.PhotoLink"></a>
+                        </div>
+                    </div>
+                </dt>
+                <dd>
+                    <p class="name"><a href="@CMSPage.Get("myobjects").FullUrl?uid=@marker.User.UserId">@marker.User.Profile.FullName</a> добавил(а) @(marker.MapCoords.Any(z => !z.IsMarker) ? "зону" : "метку"):</p>
+                    <h2><a href="@marker.CommentPageLink">@marker.Name</a></h2>
+                    <p class="smoking">@marker.SmokingStatus</p>
+                    <p class="minh20">@marker.Address</p>
+
+                    <ul class="comments minh50">
+                        @foreach (var comment in marker.MapObjectComments.Select(x => x.Comment).OrderByDescending(x => x.Date).Take(1))
+                        {
+                            <li>
+                                <div class="photo-small">
+                                    <img src="@comment.User.Profile.GetAvatarLink(50)">
+                                </div>
+                                <div class="comment">
+                                    @Html.Raw(comment.CommentText)
+                                </div>
+                            </li>
+                        }
+                    </ul>
+                </dd>
+            </dl>
+        }
+    </div>
+}
+else
+{
+
+    foreach (var obj in Model)
+    {
+   <div id="CommentBlock">
+
+        <div class="news-content">
+            <h4 id="comments">КОММЕНТАРИИ</h4>
+
+            @using (Ajax.BeginForm("ZoneList", new { uid = Request.QueryString["uid"].ToGuid(), type=Request.QueryString["type"].ToNullInt(), oid = obj.ID }, new AjaxOptions() { HttpMethod = "POST", InsertionMode = InsertionMode.Replace, UpdateTargetId = "CommentBlock" }))
+            {
+                <div class="comments1">
+
+                    @if (obj.MapObjectComments.Any())
+                    {
+                        @Html.Partial("~/Views/Lenta/CommentList.cshtml", obj.MapObjectComments.Select(x => x.Comment).Where(x => !x.ParentCommentID.HasValue).OrderBy(x => x.Date).ToList())
+                    }
+                    else
+                    {
+                        <div class="comments-list">
+                            <dl>
+                                <dd>
+                                    <p>Комментариев пока нет</p>
+                                </dd>
+                            </dl>
+
+                        </div>
+                    }
+                    <div class="send-message1">
+                        @Html.Partial("~/Views/Lenta/SendComment.cshtml")
+                    </div>
+                </div>
+            }
+
+        </div>
+    </div>
+    }
+    
+}

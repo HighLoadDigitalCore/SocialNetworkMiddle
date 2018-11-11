@@ -1,0 +1,48 @@
+﻿@model Lenta
+@{
+    var block = Model;   
+}
+<div class="@block.TypeClass">
+    @if (block.Photo.IsFilled())
+    {
+        <div class="photo">
+            <a href="@block.Href">
+                <img src="@UniversalEditorPagedData.GetImageWrapper("Lenta", "ID", block.ID.ToString(), "Photo")"></a>
+        </div>
+    }
+    @if (block.HeaderText.IsFilled())
+    {
+        <div>
+            <h4><a href="@block.Href">@Html.Raw(block.HeaderText)</a></h4>
+        </div>
+    }
+    @if (block.Author.IsFilled())
+    {
+        <p class="author">@block.Author</p>
+    }
+    @if (block.Image.IsFilled())
+    {
+        <a class="image" href="@block.Href">
+            <img src="@UniversalEditorPagedData.GetImageWrapper("Lenta", "ID", block.ID.ToString(), "Image")"></a>
+    }
+    @if (block.Text.Trim().IsFilled())
+    {
+        <div class="stream-text">
+            @Html.Raw(block.Text)
+        </div>
+    }
+
+    @if (block.ShowInfo)
+    {
+        <div class="infopanel">
+            @*<div class="col"><a href="@block.Href"><i class="icon-fav"></i>&nbsp;@block.UserFavoriteLentas.Count</a></div>*@
+            <div class="col"><a title="Комментарии" href="@block.Href#comments"><i class="icon-comments"></i>&nbsp;@block.LentaComments.Count</a></div>
+            <div class="col"><a title="Добавить в избранное" class="@(block.UserFavoriteLentas.Any(z => z.UserID == (Request.QueryString["uid"].ToGuid() ?? AccessHelper.CurrentUserKey)) ? "-active" : "")" href="#" arg="@block.ID"><i class="icon-star"></i>&nbsp;<span title="Добавлено в избранное">@block.UserFavoriteLentas.Count</span></a></div>
+        </div>
+    }
+    @if (block.ShowTime)
+    {
+        <div class="timestamp"><span class="date">@block.CreateDate.ToString("d MMMM yyyy")</span> / @block.CreateDate.ToString("HH:mm")</div>
+    }
+
+</div>

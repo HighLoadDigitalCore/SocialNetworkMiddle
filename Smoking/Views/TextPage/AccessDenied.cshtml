@@ -1,0 +1,22 @@
+﻿<div class="err404">
+    <h2>@Html.LangLabel("Ошибка 403 - Доступ запрещен")</h2>
+    <div class="descr404">
+        @Html.LangLabel("У вас недостаточно прав для просмотра данной страницы.")<br />
+        @Html.Raw(LabelDictionary.Translate("Воспользуйтесь меню для навигации по сайту или пройдите <a href=\"{0}\">авторизацию</a>.").FormatWith(CMSPage.Get("main").FullUrl))
+        <br/>
+        @Html.Raw(LabelDictionary.Translate("Если вы еще не зарегистрированы в сообществе, то пройдите <a href=\"{0}\">регистрацию</a>.").FormatWith(CMSPage.Get("register").FullUrl))
+
+    </div>
+    <img src="/Content/client/error403.png" />
+</div>
+<style>
+    .back {
+        display: none!important;
+    }
+    .descr404 {
+        margin-top: 30px;
+    }
+    .descr404 a {
+        text-decoration: underline;
+    }
+</style>

@@ -1,0 +1,13 @@
+﻿@model IEnumerable<MapSelect>
+@if (Model != null && Model.Any())
+{
+    <span class="dropdown -yellow">
+        <span>@Model.First().Name</span>
+        <span class="dropdown-list">
+            @foreach (var town in Model)
+            {
+                <a href="@CMSPage.GetByType("Map").First().FullUrl#MapCenter=@town.Lat;@town.Lng;@town.Zoom">@town.Name</a>    
+            }
+        </span>
+    </span>
+}

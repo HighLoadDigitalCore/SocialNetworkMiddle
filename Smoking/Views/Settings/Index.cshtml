@@ -1,0 +1,89 @@
+﻿@model IEnumerable<SiteSetting>
+@{
+    ViewBag.Title = "Настройки системы";
+    Layout = "~/Views/Shared/_Master.cshtml";
+}
+<h2>Настройки системы</h2>
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true)
+    <fieldset>
+        @{
+    var grouped = Model.GroupBy(x => x.GroupName);
+    var counter = 0;
+        }
+        @foreach (var group in grouped)
+        {
+            counter++;
+            <div class="group-name" gid="@counter"><a href="#">@group.Key</a></div>
+            <div class="group-content" gid="@counter">
+                @foreach (var setting in group)
+                {
+                    if (@setting.Editor != "Hidden")
+                    {
+                    <div class="editor-label">
+                        <label>@setting.Title</label>
+                    </div>
+                    }
+                    if (@setting.Editor.Contains(";"))
+                    {
+                        var splitted = setting.Editor.Split<string>(new[] { ";" }).ToList();
+                        if (splitted[0] == "DropDown")
+                        {
+                    <div class="editor-field" editor="@splitted[0]">
+                        @Html.DropDownList(setting.Setting, SiteSetting.GetDataSource(splitted[1], setting.Value))
+                    </div>
+                        }
+                    }
+                    else
+                    {
+                        if (@setting.Editor == "Hidden")
+                        {
+                    <div class="editor-field" editor="@setting.Editor">
+                        @Html.Hidden(setting.Setting, setting.Value)
+                    </div>
+                            
+                        }
+                        else if (@setting.Editor == "TextArea")
+                        {
+                    <div class="editor-field" editor="@setting.Editor">
+                        @Html.TextArea(setting.Setting, setting.Value)
+                    </div>
+                        }
+                        else
+                        {
+                    <div class="editor-field" editor="@setting.Editor">
+                        @Html.Editor(setting.Setting, setting.TemplateName)
+                    </div>
+                        }
+                    }
+                }
+                <hr />
+            </div>
+        }
+        <br />
+        <br />
+        <input type="submit" value="Сохранить" />
+    </fieldset>
+}
+@section scripts
+{
+    <script type="text/javascript" src="/Scripts/jquery.cookie.js"></script>
+    <script type="text/javascript" src="/Scripts/group-toggler.js"></script>
+    <script type="text/javascript" src="/Content/ckeditor/ckeditor.js"></script>
+    <script type="text/javascript">
+        $().ready(function () {
+            $('.editor-field[editor="TextArea"]').each(function () {
+                CKEDITOR.replace($(this).find('textarea').attr('id'), {
+                    filebrowserBrowseUrl: '/Content/ckeditor/ckfinder/ckfinder.html',
+                    filebrowserImageBrowseUrl: '/Content/ckeditor/ckfinder/ckfinder.html?type=Images',
+                    filebrowserFlashBrowseUrl: '/Content/ckeditor/ckfinder/ckfinder.html?type=Flash',
+                    filebrowserUploadUrl: '/Content/ckeditor/ckfinder/core/connector/aspx/connector.aspx?command=QuickUpload&type=Files',
+                    filebrowserImageUploadUrl: '/Content/ckeditor/ckfinder/core/connector/aspx/connector.aspx?command=QuickUpload&type=Images',
+                    filebrowserFlashUploadUrl: '/Content/ckeditor/ckfinder/core/connector/aspx/connector.aspx?command=QuickUpload&type=Flash'
+                });
+
+            });
+        });
+    </script>
+}

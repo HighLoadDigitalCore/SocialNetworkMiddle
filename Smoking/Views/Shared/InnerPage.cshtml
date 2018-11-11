@@ -1,0 +1,115 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="/Content/client/css/style.css" />
+    <!--[if lt IE 9]><script src="/Content/client/js/html5.js"></script><![endif]-->
+    <script src="/Content/client/js/jquery-1.8.3.min.js"></script>
+    <!--[if lt IE 10]><script src="/Content/client/js/PIE.js"></script><![endif]-->
+    <!--[if gte IE 9]>
+        <style type="text/css">
+            .gradient {
+                filter: none!important;
+            }
+    </style>
+    <![endif]-->
+    <title>@AccessHelper.CurrentPageInfo.Title</title>
+    <meta name="keywords" content="@AccessHelper.CurrentPageInfo.Keywords" />
+    <meta name="description" content="@AccessHelper.CurrentPageInfo.Description" />
+</head>
+<body>
+    @Html.Hidden("LangCode", AccessHelper.CurrentLang.ShortName)
+    @Html.Hidden("LangID", AccessHelper.CurrentLang.ID)
+    <div class="container">
+        <div class="header">
+            <header>
+                <div class="logo">
+                    <a href="/">
+                        <img src="/Content/client/i/logo.png" alt="@Html.LangLabel("Лотерейный синдикат")"></a>
+                </div>
+                @Html.DropDownList("LangSelect", AccessHelper.CurrentLang.LanguageListWithUrl, new { onchange = "document.location.href=$(this).val();" })
+            </header>
+        </div>
+
+        <div class="@HeaderInfo.LayoutClass">
+            <header @(HeaderInfo.NeedFixedHeader ? "" : "style=height:auto")>
+
+                @Html.Action("Header", "CommonBlocks")
+
+            </header>
+            @RenderSection("Header", false)
+            @RenderBody()
+
+        </div>
+        <div class="layout-down"></div>
+        <hr>
+    </div>
+
+    <footer>
+        <aside class="primary">
+            <nav class="secondary">
+                <a href="@CMSPage.Get("video_translation").FullUrl"><i class="icon-8-big"></i><span>@Html.LangLabel("Трансляция")</span></a>
+                <a href="@CMSPage.Get("archive").FullUrl"><i class="icon-9-big"></i><span>@Html.LangLabel("Архив")</span></a>
+                <a href="@CMSPage.Get("chat").FullUrl"><i class="icon-10-big"></i><span>@Html.LangLabel("Чат")</span></a>
+                <a href="@CMSPage.Get("notepad").FullUrl"><i class="icon-11-big"></i><span>@Html.LangLabel("Блокнот")</span></a>
+                <a href="@CMSPage.Get("real").FullUrl"><i class="icon-check-find"></i><span>@Html.LangLabel("Выбор синдиката")</span></a>
+                <a href="@CMSPage.Get("tactics").FullUrl"><i class="icon-tactics-small"></i><span>@Html.LangLabel("Тактический режим")</span></a>
+                <a href="@CMSPage.Get("vip").FullUrl"><i class="icon-vip-small"></i><span>@Html.LangLabel("VIP Режим")</span></a>
+                <a href="@CMSPage.Get("luck").FullUrl"><i class="icon-7-big"></i><span>@Html.LangLabel("Формула удачи")</span></a>
+                <a href="@CMSPage.Get("rules").FullUrl"><i class="icon-help"></i><span>@Html.LangLabel("Правила игры")</span></a>
+
+            </nav>
+        </aside>
+
+        <hr>
+        <!--@Html.Action("LowerMenu", "CommonBlocks")-->
+        <div class="info">
+            <a href="http://lotosyndikat.com/">Вернуться на главную</a><br>
+            @Html.LangLabel("© ЛотоСиндикат, 2013. Все права защищены.")
+        </div>
+        <div class="wrapper">
+            <!--<div class="vcard">
+<p class="tel">@(Html.Raw(SiteSetting.Get<string>("Phone")))</p>
+</div>-->
+            <div class="banners">
+                @*
+                    <a href="#"><img src="i/counter.yadro.ru.gif"></a>
+                    <a href="#"><img src="i/counter.yadro.ru.gif"></a>
+                    *@
+            </div>
+            <div class="copyright">
+                @*Copyright &copy; 2013 All Rights Reserved <br> <a href="#">Создние и продвижение сайта</a>*@
+            </div>
+            <div class="footer-logo">
+                <img src="/Content/client/i/logo-symb.png" alt="Лого">
+            </div>
+        </div>
+    </footer>
+    <script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jquery.unobtrusive-ajax.min.js")" type="text/javascript"></script>
+    <script src="/Content/client/js/countdown/jquery.countdown.min.js"></script>
+    <script src="/Content/client/js/jquery-ui-1.9.2.custom.min.js"></script>
+    <script src="/Content/client/js/script.js"></script>
+
+
+    @RenderSection("scripts", false)
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

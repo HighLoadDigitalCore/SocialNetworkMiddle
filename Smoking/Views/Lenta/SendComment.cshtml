@@ -1,0 +1,23 @@
+﻿@{
+    var p = AccessHelper.CurrentUserProfile;
+}
+@if (p.UserID != new Guid())
+{
+    
+        <dl>
+            <dt>
+                <div class="photo-small">
+                    <img src="@p.GetAvatarLink(50)">
+                </div>
+                <a class="name" href="@p.EditProfilePage">@p.FullName</a>
+            </dt>
+            <dd>
+                <textarea name="Message" id="Message"></textarea>
+                <a onclick="return submitForm('#CommentBlock');" class="btn -green -submit" href="#">Отправить</a>
+            </dd>
+        </dl>
+        <div class="error-list">
+            @Html.ValidationSummary(true)
+        </div>
+    
+}

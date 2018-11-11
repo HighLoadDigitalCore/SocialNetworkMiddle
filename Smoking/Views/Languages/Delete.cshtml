@@ -1,0 +1,21 @@
+﻿@model Language
+@{
+    ViewBag.Title = "Удаление языка";
+    Layout = "~/Views/Shared/_Master.cshtml";
+}
+
+<h2>Удаление языка</h2>
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true)
+    <fieldset>
+        
+        <h3>Вы действительно хотите удалить язык "@Model.Name" из системы? <br />Это также приведет к удалению всей информации связанной с этим языком.</h3>
+        <br />
+        <input type="submit" value="Удалить" />
+    </fieldset>
+}
+
+<div class="backref">
+    @Html.ActionLink("Назад к списку", "Index", "Languages")
+</div>

@@ -1,0 +1,107 @@
+﻿@model UserProfile
+@{
+    ViewBag.Title = "Редактирование данных пользователя";
+    Layout = "~/Views/Shared/_Master.cshtml";
+}
+
+<h2>Редактирование данных пользователя @(Model.FullName.IsNullOrEmpty() ? "" : "\"{0}\"".FormatWith(Model.FullName))</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true)
+    <fieldset>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Login)
+        </div>
+        <div class="editor-field @(!Model.UserID.IsEmpty() ? "locked" : "")" >
+            @Html.EditorFor(model => model.Login)
+            @Html.ValidationMessageFor(model => model.Login)
+        </div>
+
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Email)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Email)
+            @Html.ValidationMessageFor(model => model.Email)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Password)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Password)
+            @Html.ValidationMessageFor(model => model.Password)
+        </div>
+
+        @Html.HiddenFor(model => model.UserID)
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Name)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Name)
+            @Html.ValidationMessageFor(model => model.Name)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Surname)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Surname)
+            @Html.ValidationMessageFor(model => model.Surname)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Patrinomic)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Patrinomic)
+            @Html.ValidationMessageFor(model => model.Patrinomic)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.HomePhone)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.HomePhone)
+            @Html.ValidationMessageFor(model => model.HomePhone)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.MobilePhone)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.MobilePhone)
+            @Html.ValidationMessageFor(model => model.MobilePhone)
+        </div>
+
+        <div class="cbxList">
+            @foreach (var role in Model.RolesList)
+            {
+                <div>
+                    @Html.CheckBox(role.RoleName, role.Selected)
+                    <label for="@role.RoleName">@role.RoleName</label>
+                </div>
+            }
+        </div>
+
+        <p>
+            <input type="submit" value="Сохранить" />
+        </p>
+    </fieldset>
+}
+<div class="backref">
+    @Html.ActionLinkQuery("Назад к списку", "Index", "Users", new[] { "role", "query", "page" })
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+        $().ready(function () {
+            $('.locked input').attr('disabled', 'disabled');
+        })
+    </script>
+}

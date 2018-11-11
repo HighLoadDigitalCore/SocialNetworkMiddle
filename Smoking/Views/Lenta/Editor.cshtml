@@ -1,0 +1,57 @@
+﻿@model CMSPage
+@{
+    ViewBag.Title = "Редактирование текстовых страницы";
+    Layout = "~/Views/Shared/_Master.cshtml";
+}
+<fieldset>
+    @Html.DropDownList("PageList", ViewBag.TextPages as SelectList)
+</fieldset>
+@if (Model != null && Model.TextData != null)
+{
+    <h2>
+        Редактирование страницы "@Model.PageName"</h2>
+    <div class="backref">
+        <a href="@Model.FullUrl" target="_blank">Посмотреть на сайте</a></div>
+    <br />
+    using (Html.BeginForm())
+    {
+    @Html.ValidationSummary(true)
+    <fieldset>
+        <div class="editor-label">
+            <label for="Text">
+                Содержимое страницы:</label>
+        </div>
+        <div class="editor-field">
+            @Html.TextArea("Text", Model.TextData.Text)
+        </div>
+        <input type="submit" value="Сохранить изменения" />
+    </fieldset>
+    }
+}
+@section scripts
+{
+    <script type="text/javascript" src="/Content/ckeditor/ckeditor.js"></script>
+    <script type="text/javascript">
+        var targetURL = '@(Url.Action("Editor"))';
+        $().ready(function () {
+
+            $('#PageList').change(function () {
+                document.location.href = targetURL + '?pageID=' + $('#PageList').val();
+            });
+            if ($('#Text').length) {
+                CKEDITOR.replace('Text', {
+                    filebrowserBrowseUrl: '/Content/ckeditor/ckfinder/ckfinder.html',
+                    filebrowserImageBrowseUrl: '/Content/ckeditor/ckfinder/ckfinder.html?type=Images',
+                    filebrowserFlashBrowseUrl: '/Content/ckeditor/ckfinder/ckfinder.html?type=Flash',
+                    filebrowserUploadUrl: '/Content/ckeditor/ckfinder/core/connector/aspx/connector.aspx?command=QuickUpload&type=Files',
+                    filebrowserImageUploadUrl: '/Content/ckeditor/ckfinder/core/connector/aspx/connector.aspx?command=QuickUpload&type=Images',
+                    filebrowserFlashUploadUrl: '/Content/ckeditor/ckfinder/core/connector/aspx/connector.aspx?command=QuickUpload&type=Flash'
+                });
+            }
+
+
+        });
+
+        //var editor_data = CKEDITOR.instances.editor1.getData();
+    </script>
+}

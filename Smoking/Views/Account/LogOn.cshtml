@@ -1,0 +1,97 @@
+﻿@{
+    ViewBag.Title = "Авторизация";
+    Layout = "~/Views/Shared/_LogOn.cshtml";
+} 
+@*@using ActivateService.Helpers*@
+@using BotDetect
+@using BotDetect.Web.UI.Mvc
+@model LogOnModel
+<link href="@BotDetect.Web.CaptchaUrls.LayoutStyleSheetUrl" rel="stylesheet" type="text/css" />
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+<script type="text/javascript">
+    $().ready(function() {
+        var image = $('a[title="CAPTCHA"]').html();
+        $('a[title="CAPTCHA"]').parent().html(image);
+    });
+</script>
+@using (Html.BeginForm())
+{
+    MvcCaptcha captcha = CaptchaHelper.GetRegistrationCaptcha();
+    <div class="login-cell">
+        <table class="login">
+            <tr>
+                <td colspan="3">
+                    <h2>
+                        Авторизация</h2>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span>
+                        @Html.LabelFor(model => model.UserName)
+                    </span>
+                </td>
+                <td>
+                    @Html.TextBoxFor(model => model.UserName)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                </td>
+                <td>
+                    @Html.ValidationMessageFor(model => model.UserName)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span>
+                        @Html.LabelFor(model => model.Password)</span>
+                </td>
+                <td>
+                    @Html.PasswordFor(model => model.Password)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                </td>
+                <td>
+                    @Html.ValidationMessageFor(model => model.Password)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span>
+                        @Html.LabelFor(model => model.RememberMe)</span>
+                </td>
+                <td>
+                    @Html.CheckBoxFor(model => model.RememberMe)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.LabelFor(model => model.CaptchaCode)
+                    @Html.Captcha(captcha)
+                </td>
+                <td>
+                    @Html.TextBoxFor(model => model.CaptchaCode)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                </td>
+                <td>
+                    @Html.ValidationMessageFor(model => model.CaptchaCode)
+                    <br />
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <div class="center">
+                        <input type="submit" value="Войти" />
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+}

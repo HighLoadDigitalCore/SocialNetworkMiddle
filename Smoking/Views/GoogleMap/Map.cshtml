@@ -1,0 +1,62 @@
+﻿@model MapModel
+@{
+    var filter = AccessHelper.MapFilter;
+}
+<div class="filter">
+
+    @foreach (var field in MapFilterData.ParamNamesToOut)
+    {
+        <input rel="autoprop" type="hidden" id="@field" name="@field" value="@filter.GetPropertyValue(field).ToJson()"/>
+    }
+    <form name="SearchForm" class="search-box" id="SearchFrom">
+        <input type="submit" class="submitter" />
+        <input type="text" class="search-box-inp" data-placeholder="Поиск объектов и зон" />
+        <a href="#"><i class="icon-zoom"></i></a>
+    </form>
+    <div class="multiselect -big -lgreen -shaded -biground -green1" typeid="0">
+        <div>Объекты</div>
+        <ul>
+            @foreach (var obj in Model.ObjectTypes)
+            {
+                <li type-name-id="@obj.ID" typeid="0" >@obj.TypeName</li>    
+            }
+        </ul>
+    </div>
+
+    <div class="multiselect -big -lgreen -shaded -biground" typeid="1">
+        <div>Зоны</div>
+        <ul>
+            @foreach (var obj in Model.ObjectTypes)
+            {
+                <li type-name-id="@obj.ID" typeid="1" >@obj.TypeName</li>    
+            }
+        </ul>
+    </div>
+    <a id="IsFavoriteBtn" title="Показать только мои объекты и зоны" href="#"><i class="icon-star1"></i></a>
+</div>
+
+<div class="map">
+    <div class="mapcontrols">
+        <a href="#" arg="null">
+            <img src="/content/client/i/allmap.png" alt="Вся карта" /></a>
+        <a href="#" arg="1">
+            <img src="/content/client/i/smoking.png" alt="Курю" /></a>
+        <a href="#" arg="0">
+            <img src="/content/client/i/quitsmoking.png" alt="Бросаю" /></a>
+        <a href="#" arg="-1">
+            <img src="/content/client/i/notsmoking.png" alt="Не курю" /></a>
+    </div>
+    <div class="editor-controls">
+        @if (!AccessHelper.IsAuthClient)
+        {
+            <p><a class="btn -blue -biground -shaded" data-fancybox="#enter" href=""><i class="icon-add "></i><span>Добавить объект</span></a></p>
+            <p><a class="btn -green -biground -shaded" href="" data-fancybox="#enter"><i class="icon-zone"></i><span>Добавить зону</span></a></p>
+        }
+        else
+        {
+            <p><a action="0" class="btn -blue -biground -shaded -actionbtn" href=""><i class="icon-add "></i><span>Добавить объект</span></a></p>
+            <p><a action="1" class="btn -green -biground -shaded -actionbtn" href=""><i class="icon-zone"></i><span>Добавить зону</span></a></p>
+        }
+    </div>
+    <div id="map"></div>
+</div>
